@@ -1,11 +1,15 @@
 import type { Breadcrumb } from './breadcrumb'
-import type { BrowserSubTypes, MethodTypes } from './constant'
+import type { BrowserSubTypes, MethodTypes, PlatformTypes } from './constant'
+import type { formatDate, generateUUID } from './utils'
 
 export interface MonitorCtx {
   report: (...args: any[]) => any
   breadcrumb: Breadcrumb
   uploadUrl: string
   log: (arg: any, type: string) => void
+  setGlobal: (key: string, cb: (...args: any) => any) => void
+  generateUUID: typeof generateUUID
+  formatDate: typeof formatDate
 }
 
 export type Plugin = (ctx: MonitorCtx) => void
@@ -34,6 +38,7 @@ export enum BrowserBreadcrumbTypes {
   FRAMEWORK = 'Framework',
   LIFECYCLE = 'LifeCycle',
   CRASH = 'Crash',
+  MICRO = 'Micro',
 }
 export enum BreadcrumbLevel {
   FATAL = 'fatal',
@@ -65,6 +70,7 @@ export enum EventTypes {
   LIFECYCLE = 'lifeCycle',
   EXTEND = 'extend',
   RECORD = 'record',
+  MICRO = 'micro',
 }
 export interface HttpRequest {
   method: MethodTypes | string
@@ -96,13 +102,55 @@ export enum RecordTypes {
 }
 
 export interface ReportDataType<T> {
+  // 标识id
   id: string
+  // 时间戳
+
   time: string
+  // 事件类型
+
   type: EventTypes
+  // 具体数据，json格式
+
   data: T
+  // 行为记录
+
   breadcrumb?: BreadcrumbPushData[]
 }
 
 export interface ReportDataMsgType {
   sub_type: BrowserSubTypes | string
+}
+
+export interface ClientInfoType {
+  // 平台
+  platform: PlatformTypes
+  // 应用id
+  app_id?: string
+  session_id?: string
+  // 页面标题
+  page_title?: string
+  // 路径
+  path?: string
+  // 语言
+  language?: string
+  // 配置
+
+  user_agent?: string
+}
+
+export interface VueReportDataType extends ReportDataMsgType {
+  name: string
+  message: string
+  hook: string
+  stack: string
+  lineno?: number
+  colno?: number
+  filename?: string
+}
+
+export interface VueConfiguration {
+  errorHandler?(err: Error, vm: any, info: string): void
+  warnHandler?(msg: string, vm: any, trace: string): void
+  [key: string]: any
 }

@@ -115,3 +115,5 @@ export enum WxBreadcrumbTypes {
   LIFECYCLE = 'LifeCycle',
   CUSTOMER = 'Customer',
 }
+
+export const MIZAR_SYMBOL = '__MIZAR_SYMBOL__'

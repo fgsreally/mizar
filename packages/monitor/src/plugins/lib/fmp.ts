@@ -1,6 +1,4 @@
-import { formatDecimal } from "@heimdallr-sdk/utils";
-
-const IGNORE_TAG_SET = ['SCRIPT', 'STYLE', 'META', 'HEAD', 'LINK'];
+const IGNORE_TAG_SET = ['SCRIPT', 'STYLE', 'META', 'HEAD', 'LINK']
 
 const TAG_WEIGHT_MAP = {
   SVG: 2,
@@ -8,83 +6,84 @@ const TAG_WEIGHT_MAP = {
   CANVAS: 4,
   OBJECT: 4,
   EMBED: 4,
-  VIDEO: 4
-};
+  VIDEO: 4,
+}
 
-const LIMIT = 1000;
+const LIMIT = 1000
 
-const DELAY = 500;
+const DELAY = 500
 
 interface ElTimeType {
-  t: number;
+  t: number
 }
 
 interface ElsType {
-  node: HTMLElement;
-  st: number;
-  weight: number;
+  node: HTMLElement
+  st: number
+  weight: number
 }
 interface ScoreParamType {
-  dpss: ScoreParamType[];
-  st: number;
-  els: ElsType[];
+  dpss: ScoreParamType[]
+  st: number
+  els: ElsType[]
 }
 
 export default class FMPTiming {
-  statusCollector: ElTimeType[];
-  flag: boolean;
-  observer: MutationObserver;
-  callbackCount: number;
-  WW: number;
-  WH: number;
-  resourceMap: {};
-  private readonly startTime: number;
+  statusCollector: ElTimeType[]
+  flag: boolean
+  observer: MutationObserver
+  callbackCount: number
+  WW: number
+  WH: number
+  resourceMap: {}
+  private readonly startTime: number
 
   constructor() {
-    const { responseEnd } = performance.timing;
-    this.startTime = responseEnd;
+    const { responseEnd } = performance.timing
+    this.startTime = responseEnd
 
-    this.statusCollector = [];
-    this.flag = true;
-    this.observer = null;
-    this.callbackCount = 1;
-    this.resourceMap = {};
+    this.statusCollector = []
+    this.flag = true
+    this.observer = null
+    this.callbackCount = 1
+    this.resourceMap = {}
 
-    this.WW = window.innerWidth;
-    this.WH = window.innerHeight;
+    this.WW = window.innerWidth
+    this.WH = window.innerHeight
   }
 
   initObserver(): Promise<number> {
     return new Promise((rs) => {
       this.observer = new MutationObserver(() => {
-        const t = Date.now() - this.startTime;
-        const bodyTarget = document.body;
+        const t = Date.now() - this.startTime
+        const bodyTarget = document.body
 
-        if (bodyTarget) {
-          this.doTag(bodyTarget, this.callbackCount++);
-        }
+        if (bodyTarget)
+          this.doTag(bodyTarget, this.callbackCount++)
+
         this.statusCollector.push({
-          t
-        });
-      });
+          t,
+        })
+      })
 
       this.observer.observe(document, {
         childList: true,
-        subtree: true
-      });
+        subtree: true,
+      })
 
       if (document.readyState === 'complete') {
-        this.calFinallScore().then((res) => rs(res));
-      } else {
+        this.calFinallScore().then(res => rs(res))
+      }
+      else {
         window.addEventListener(
           'load',
           () => {
-            this.calFinallScore().then((res) => rs(res));
+            this.calFinallScore().then(res => rs(res))
           },
-          true
-        );
+          true,
+        )
       }
-    });
+    })
   }
 
   /**
@@ -94,36 +93,36 @@ export default class FMPTiming {
    * @returns
    */
   private getStyle(element: Element, att: string) {
-    //特性侦测
+    // 特性侦测
     if (window.getComputedStyle) {
-      //优先使用W3C规范
-      return window.getComputedStyle(element)[att];
-    } else {
-      //针对IE9以下兼容
-      return (element as any).currentStyle[att];
+      // 优先使用W3C规范
+      return window.getComputedStyle(element)[att]
+    }
+    else {
+      // 针对IE9以下兼容
+      return (element as any).currentStyle[att]
     }
   }
 
   private initResourceMap() {
     performance.getEntriesByType('resource').forEach((item: PerformanceResourceTiming) => {
-      this.resourceMap[item.name] = item.responseEnd;
-    });
+      this.resourceMap[item.name] = item.responseEnd
+    })
   }
 
   private doTag(target: Element, callbackCount: number) {
-    const tagName = target.tagName;
+    const tagName = target.tagName
 
-    if (IGNORE_TAG_SET.includes(tagName)) {
-      return;
-    }
+    if (IGNORE_TAG_SET.includes(tagName))
+      return
 
-    const childrenLen = target.children ? target.children.length : 0;
+    const childrenLen = target.children ? target.children.length : 0
     if (childrenLen > 0) {
       for (const child of Array.from(target.children)) {
-        if (child.getAttribute('f_c') === null) {
-          child.setAttribute('f_c', `${callbackCount}`);
-        }
-        this.doTag(child, callbackCount);
+        if (child.getAttribute('f_c') === null)
+          child.setAttribute('f_c', `${callbackCount}`)
+
+        this.doTag(child, callbackCount)
       }
     }
   }
@@ -131,103 +130,105 @@ export default class FMPTiming {
   private calFinallScore(): Promise<number> {
     return new Promise((rs) => {
       if (!MutationObserver || !this.flag) {
-        rs(null);
-        return;
+        rs(null)
+        return
       }
       if (this.checkCanCal(this.startTime)) {
-        this.observer.disconnect();
-        this.flag = false;
-        const res = this.deepTraversal(document.body);
+        this.observer.disconnect()
+        this.flag = false
+        const res = this.deepTraversal(document.body)
         if (!res) {
-          rs(null);
-          return;
+          rs(null)
+          return
         }
-        let tp: ScoreParamType = null;
+        let tp: ScoreParamType = null
         res.dpss.forEach((item) => {
           if (tp && tp.st) {
-            if (tp.st < item.st) {
-              tp = item;
-            }
-          } else {
-            tp = item;
+            if (tp.st < item.st)
+              tp = item
           }
-        });
-        this.initResourceMap();
-        const resultSet = this.filterTheResultSet(tp.els);
-        const fmpTiming = this.calResult(resultSet);
-        rs(formatDecimal(fmpTiming, 3));
-      } else {
+          else {
+            tp = item
+          }
+        })
+        this.initResourceMap()
+        const resultSet = this.filterTheResultSet(tp.els)
+        const fmpTiming = this.calResult(resultSet)
+        rs(formatDecimal(fmpTiming, 3))
+      }
+      else {
         setTimeout(() => {
           this.calFinallScore().then((res) => {
-            rs(res);
-          });
-        }, DELAY);
+            rs(res)
+          })
+        }, DELAY)
       }
-    });
+    })
   }
 
   private calResult(resultSet: ElsType[]): number {
-    let rt = 0;
+    let rt = 0
     resultSet.forEach((item) => {
-      let t = 0;
-      const { node, weight } = item;
-      const { tagName } = node;
+      let t = 0
+      const { node, weight } = item
+      const { tagName } = node
       if (weight === 1) {
-        const index = +node.getAttribute('f_c') - 1;
-        t = this.statusCollector[index].t;
-      } else if (weight === 2) {
+        const index = +node.getAttribute('f_c') - 1
+        t = this.statusCollector[index].t
+      }
+      else if (weight === 2) {
         switch (tagName) {
           case 'IMG':
             {
-              t = this.resourceMap[(node as HTMLImageElement).src];
+              t = this.resourceMap[(node as HTMLImageElement).src]
             }
-            break;
+            break
           case 'SVG':
             {
-              const index = +node.getAttribute('f_c') - 1;
-              t = this.statusCollector[index].t;
+              const index = +node.getAttribute('f_c') - 1
+              t = this.statusCollector[index].t
             }
-            break;
+            break
           default:
             {
               // background image
-              const match = this.getStyle(node, 'background-image').match(/url\("(.*?)"\)/);
-              let s = '';
-              if (match && match[1]) {
-                s = match[1];
-              }
-              if (s.indexOf('http') == -1) {
-                s = location.protocol + match[1];
-              }
-              t = this.resourceMap[s];
+              const match = this.getStyle(node, 'background-image').match(/url\("(.*?)"\)/)
+              let s = ''
+              if (match && match[1])
+                s = match[1]
+
+              if (!s.includes('http'))
+                s = location.protocol + match[1]
+
+              t = this.resourceMap[s]
             }
-            break;
+            break
         }
-      } else if (weight === 4) {
+      }
+      else if (weight === 4) {
         switch (tagName) {
           case 'CANVAS':
             {
-              const index = +node.getAttribute('f_c') - 1;
-              t = this.statusCollector[index].t;
+              const index = +node.getAttribute('f_c') - 1
+              t = this.statusCollector[index].t
             }
 
-            break;
+            break
           case 'VIDEO':
             {
-              const videoEl = node as HTMLVideoElement;
-              t = this.resourceMap[videoEl.src];
-              !t && (t = this.resourceMap[videoEl.poster]);
+              const videoEl = node as HTMLVideoElement
+              t = this.resourceMap[videoEl.src]
+              !t && (t = this.resourceMap[videoEl.poster])
             }
-            break;
+            break
           default:
-            break;
+            break
         }
       }
-      if (rt < t) {
-        rt = t;
-      }
-    });
-    return rt;
+      if (rt < t)
+        rt = t
+    })
+    return rt
   }
 
   /**
@@ -236,14 +237,14 @@ export default class FMPTiming {
    * @returns
    */
   private filterTheResultSet(els: ElsType[]): ElsType[] {
-    let sum = 0;
+    let sum = 0
     els.forEach((item) => {
-      sum += item.st;
-    });
+      sum += item.st
+    })
 
-    const avg = sum / els.length;
+    const avg = sum / els.length
 
-    return els.filter(({ st }) => st >= avg);
+    return els.filter(({ st }) => st >= avg)
   }
 
   /**
@@ -252,63 +253,62 @@ export default class FMPTiming {
    * @returns
    */
   private deepTraversal(node: HTMLElement): ScoreParamType {
-    if (!node) {
-      return null;
-    }
-    const dpss = [];
+    if (!node)
+      return null
+
+    const dpss = []
 
     for (let i = 0, child; (child = node.children[i]); i++) {
-      const s = this.deepTraversal(child);
-      if (s.st) {
-        dpss.push(s);
-      }
+      const s = this.deepTraversal(child)
+      if (s.st)
+        dpss.push(s)
     }
 
-    return this.calScore(node, dpss);
+    return this.calScore(node, dpss)
   }
 
   private calScore(node: HTMLElement, dpss: ScoreParamType[]) {
-    const { width, height, left, top } = node.getBoundingClientRect();
-    let f = 1;
+    const { width, height, left, top } = node.getBoundingClientRect()
+    let f = 1
 
     if (this.WH < top || this.WW < left) {
       // 不在可视viewport中
-      f = 0;
+      f = 0
     }
 
-    let sdp = 0;
+    let sdp = 0
 
     dpss.forEach((item) => {
-      sdp += item.st;
-    });
+      sdp += item.st
+    })
 
-    let weight = TAG_WEIGHT_MAP[node.tagName] || 1; // 权重
+    let weight = TAG_WEIGHT_MAP[node.tagName] || 1 // 权重
 
     if (weight === 1 && !['initial', 'none'].includes(this.getStyle(node, 'background-image'))) {
       // 将有图片背景的普通元素 权重设置为img
-      weight = TAG_WEIGHT_MAP['IMG'];
+      weight = TAG_WEIGHT_MAP.IMG
     }
 
-    let st = width * height * weight * f;
+    let st = width * height * weight * f
 
-    let els = [{ node, st, weight }];
+    let els = [{ node, st, weight }]
 
-    const areaPercent = this.calAreaPercent(node);
+    const areaPercent = this.calAreaPercent(node)
 
     if (sdp > st * areaPercent || areaPercent === 0) {
-      st = sdp;
-      els = [];
+      st = sdp
+      els = []
 
       dpss.forEach((item) => {
-        els = els.concat(item.els);
-      });
+        els = els.concat(item.els)
+      })
     }
 
     return {
       dpss,
       st,
-      els
-    };
+      els,
+    }
   }
 
   /**
@@ -317,31 +317,30 @@ export default class FMPTiming {
    * @returns {boolean}
    */
   private checkCanCal(start: number): boolean {
-    const ti = Date.now() - start;
+    const ti = Date.now() - start
     return (
-      ti > LIMIT ||
-      ti - ((this.statusCollector && this.statusCollector.length && this.statusCollector[this.statusCollector.length - 1].t) || 0) > 1000
-    );
+      ti > LIMIT
+      || ti - ((this.statusCollector && this.statusCollector.length && this.statusCollector[this.statusCollector.length - 1].t) || 0) > 1000
+    )
   }
 
   private calAreaPercent(node: HTMLElement): number {
-    const { left, right, top, bottom, width, height } = node.getBoundingClientRect();
-    const wl = 0;
-    const wt = 0;
-    const wr = this.WW;
-    const wb = this.WH;
+    const { left, right, top, bottom, width, height } = node.getBoundingClientRect()
+    const wl = 0
+    const wt = 0
+    const wr = this.WW
+    const wb = this.WH
 
-    const overlapX = right - left + (wr - wl) - (Math.max(right, wr) - Math.min(left, wl));
+    const overlapX = right - left + (wr - wl) - (Math.max(right, wr) - Math.min(left, wl))
     if (overlapX <= 0) {
       // x 轴无交点
-      return 0;
+      return 0
     }
 
-    const overlapY = bottom - top + (wb - wt) - (Math.max(bottom, wb) - Math.min(top, wt));
-    if (overlapY <= 0) {
-      return 0;
-    }
+    const overlapY = bottom - top + (wb - wt) - (Math.max(bottom, wb) - Math.min(top, wt))
+    if (overlapY <= 0)
+      return 0
 
-    return (overlapX * overlapY) / (width * height);
+    return (overlapX * overlapY) / (width * height)
   }
 }

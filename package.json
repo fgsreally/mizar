@@ -8,13 +8,14 @@
   },
   "keywords": [],
   "author": "",
-  "devDependencies":{
+  "devDependencies": {
     "@antfu/eslint-config": "^0.34.1",
     "@changesets/cli": "^2.26.0",
     "@types/node": "^18.15.11",
     "cross-env": "^7.0.3",
     "eslint": "^8.31.0",
     "lazyrepo": "0.0.0-alpha.12",
+    "puppeteer": "^19.9.1",
     "tsup": "^6.5.0",
     "turbo": "^1.7.0",
     "typescript": "^4.9.4",

@@ -1,7 +1,7 @@
 import { DomTypes } from '../constant'
 import type { Plugin } from '../types'
 import { BrowserBreadcrumbTypes, EventTypes } from '../types'
-import { formatDate, generateUUID, throttle } from '../utils'
+import { getXPath, throttle } from '../utils'
 /**
  * 返回包含id、class、innerTextde字符串的标签
  * @param target html节点
@@ -21,9 +21,7 @@ export function htmlElementAsString(target: HTMLElement): string | null {
   return `<${tagName}${id}${classNames !== '' ? classNames : ''}>${innerText}</${tagName}>`
 }
 export function dom(throttleDelayTime = 300): Plugin {
-  return (ctx) => {
-    const { report, breadcrumb } = ctx
-
+  return ({ formatDate, generateUUID, report, breadcrumb }) => {
     const clickThrottle = throttle((activeElement: HTMLElement) => {
       const category = DomTypes.CLICK
       const htmlString = htmlElementAsString(activeElement)
@@ -39,6 +37,7 @@ export function dom(throttleDelayTime = 300): Plugin {
       })
       report({
         id,
+        xpath: getXPath(activeElement),
         time: formatDate(),
         type: EventTypes.DOM,
         data: {

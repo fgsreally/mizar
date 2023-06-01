@@ -1,5 +1,5 @@
-import { BrowserErrorTypes } from '../constant'
-import type { Plugin, ReportDataType } from '../types'
+import { BrowserErrorTypes, ConsoleTypes } from '../constant'
+import type { CodeErrorType, Plugin, ReportDataMsgType, ReportDataType } from '../types'
 import { BreadcrumbLevel, BrowserBreadcrumbTypes, EventTypes } from '../types'
 import { formatDate, generateUUID } from '../utils'
 
@@ -42,6 +42,7 @@ export function error(): Plugin {
           id,
           time,
           type: category,
+          lever:'error',
           breadcrumb: breadcrumb.getStack(),
           data: {
             sub_type: BrowserErrorTypes.RESOURCEERROR,

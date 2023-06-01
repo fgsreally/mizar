@@ -46,6 +46,7 @@ export function reject(): Plugin {
     }
     window.addEventListener('unhandledrejection', (e: PromiseRejectionEvent) => {
       e.preventDefault()
+      console.log(e)
       log(e, ConsoleTypes.ERROR)
       report(transform({
         category: EventTypes.ERROR,

@@ -1,10 +1,9 @@
 import { record } from 'rrweb'
 import type { Plugin, RecordDataType } from '../types'
 import { EventTypes, RecordTypes } from '../types'
-import { formatDate, generateUUID } from '../utils'
 
 export function rrweb(): Plugin {
-  return ({ report }) => {
+  return ({ report, formatDate, generateUUID }) => {
     let stopFnc: ReturnType<typeof record>
     const events: any[] = []
     window.addEventListener('load', () => {

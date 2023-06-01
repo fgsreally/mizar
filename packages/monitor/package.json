@@ -1,5 +1,5 @@
 {
-  "name": "@mizar.io/monitor",
+  "name": "mizar-monitor",
   "version": "1.0.7",
   "description": "",
   "main": "dist/index.js",
@@ -19,6 +19,7 @@
     "tsup": "^6.5.0"
   },
   "dependencies": {
-    "rrweb": "2.0.0-alpha.4"
+    "rrweb": "2.0.0-alpha.4",
+    "web-vitals": "^3.3.1"
   }
 }

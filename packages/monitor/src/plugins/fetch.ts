@@ -18,7 +18,7 @@ export function fetch(reportResponds = false, ignoreUrls: string[] = []): Plugin
         eventId: id,
         type: BrowserBreadcrumbTypes.FETCH,
         level: status !== 200 ? BreadcrumbLevel.WARN : BreadcrumbLevel.INFO,
-        message: `${method} "${url}" width "${JSON.stringify(params)}" took ${elapsedTime / 1000} seconds`,
+        message: `${method} "${url}" with "${JSON.stringify(params)}" took ${elapsedTime / 1000} seconds`,
       })
       return {
         id,

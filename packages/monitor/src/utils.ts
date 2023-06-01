@@ -107,10 +107,69 @@ export function getDeepPropByDot(keyPath: string, obj: Object): any {
   for (const key of paths) {
     const value = result[key]
     if (!value) {
-      console.warn(TAG, `${key} does not exist`)
+      console.warn('TAG', `${key} does not exist`)
       return null
     }
     result = value
   }
   return result
+}
+
+export function isSupportSendBeacon() {
+  return !!window.navigator?.sendBeacon
+}
+
+export function formatDecimal(num: number, decimal: number): number {
+  if (!num)
+    return num
+
+  let str = num.toString()
+  const index = str.indexOf('.')
+  if (index !== -1)
+    str = str.substring(0, decimal + index + 1)
+
+  else
+    str = str.substring(0)
+
+  return parseFloat(str)
+}
+
+// 计算DOM元素的XPath
+export function getXPath(element: HTMLElement) {
+  let xpath = ''
+  let index, siblings
+
+  // 如果元素是文本节点，则返回父元素的XPath，并添加索引值
+  if (element.nodeType === Node.TEXT_NODE) {
+    index = 1
+    siblings = element.parentNode!.childNodes
+    for (let i = 0; i < siblings.length; i++) {
+      if (siblings[i] === element) {
+        xpath += `/text()[${index}]`
+        break
+      }
+      if (siblings[i].nodeType === Node.TEXT_NODE)
+        index++
+    }
+    element = element.parentNode as any
+  }
+
+  // 逐级向上遍历元素的父元素，直到文档的根元素
+  while (element.parentNode) {
+    // 获取元素在其兄弟元素中的索引值
+    index = 1
+    siblings = element.parentNode!.childNodes
+    for (let i = 0; i < siblings.length; i++) {
+      if (siblings[i] === element) {
+        xpath = `/${element.tagName.toLowerCase()}[${index}]${xpath}`
+        break
+      }
+
+      if (siblings[i].nodeType === element.nodeType && (siblings[i] as any).tagName === element.tagName)
+        index++
+    }
+    element = element.parentNode as any
+  }
+
+  return xpath
 }

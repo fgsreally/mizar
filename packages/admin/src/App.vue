@@ -1,23 +1,27 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { useToasted } from '@hoppscotch/vue-toasted'
+import Timeline from './components/Timeline.vue'
+const toast = useToasted()
+toast.show('Hola! From Composition API!')
+const points = [
+  {
+    type: 'a',
+    timestamp: 100,
+  },
+  {
+    type: 'a',
+    timestamp: 300,
+  },
+  {
+    type: 'a',
+    timestamp: 500,
+  },
+]
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <Timeline :points="points" />
 </template>
 
 <style scoped>
