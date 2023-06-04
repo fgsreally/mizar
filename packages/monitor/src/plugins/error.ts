@@ -42,7 +42,7 @@ export function error(): Plugin {
           id,
           time,
           type: category,
-          lever:'error',
+          level:'error',
           breadcrumb: breadcrumb.getStack(),
           data: {
             sub_type: BrowserErrorTypes.RESOURCEERROR,

@@ -60,17 +60,10 @@ export class LinearController {
   async postIssue(
   @Body('', false) data: {
     title: string, description: string
-    projectId: string, team: string
+    projectId: string, teamid: string
   }) {
-    const { title, description, projectId, team: teamName } = data
-    const teams = await this.client.teams({
-      filter: {
-        name: {
-          eq: teamName,
-        },
-      },
-    })
-    const team = teams.nodes[0]
+    const { title, description, projectId, teamid } = data
+    const team = await this.client.team(teamid)
     if (team.id) {
       const ret = await this.client.createIssue({ teamId: team.id, title: `[MIZAR] ${title}`, description, projectId })
       console.log(ret)

@@ -1,12 +1,8 @@
+import type { Ref } from '@typegoose/typegoose'
 import { getModelForClass, prop } from '@typegoose/typegoose'
 import { LogEntity } from './log.model'
 import { InfoEntity } from './info.model'
 class ErrorEntity extends LogEntity {
-  // @prop({ required: true })
-  // public id!: string
-
-  // @prop({ required: true })
-  // public time!: string
   @prop({ required: true })
   public level!: 'error'
 
@@ -17,7 +13,7 @@ class ErrorEntity extends LogEntity {
     required: true,
     type: () => InfoEntity,
   })
-  breadcrumb!: InfoEntity[]
+  breadcrumb!: Ref<InfoEntity >[]
 }
 
 const ErrorModel = getModelForClass(ErrorEntity)

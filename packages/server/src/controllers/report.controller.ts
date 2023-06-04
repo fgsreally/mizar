@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Middle, Param, Post, Tag } from 'phecda-server'
+import { Body, Controller, Get, Middle, Param, Post, Query, Tag } from 'phecda-server'
 import { LogService } from '../services/log.service'
 import type { LogEntity } from '../dtos/log.model'
 import { ErrorService } from './../services/error.service'
@@ -15,8 +15,12 @@ export class ReportController {
     return await this.logService.addLog(body)
   }
 
-  @Get('/:uid')
+  @Get('/error/:uid')
   async getError(@Param('uid') uid: string) {
-    return this.errorService.getAll(uid)
+    return this.errorService.getByUid(uid)
+  }
+  @Get('/error/:project')
+  async getErrorByProject(@Param('project') project: string,@Query('limit') number?: number,@) {
+    return this.errorService.getByUid(project,limit,skip)
   }
 }

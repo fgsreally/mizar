@@ -13,14 +13,6 @@ export class ErrorService extends BaseService<typeof ErrorEntity> {
 
   readonly Model = ErrorModel
 
-  protected async fillBreadcrumb(entities: ErrorEntity[]) {
-    for (const e of entities) {
-      const ids = e.breadcrumb
-      e!.breadcrumb = await this.infoService.getInfoByUid(ids) as any
-    }
-
-    return entities as unknown as (Omit<typeof ErrorEntity, 'breadcrumb'> & { breadcrumb: InfoEntity })[]
-  }
 
   async getByUid(uid: string) {
     const ret = await this.findOne({ uid }).populate('project').populate('breadcrumb')
@@ -54,6 +46,6 @@ export class ErrorService extends BaseService<typeof ErrorEntity> {
       },
     ]
     const ret = await this.Model.aggregate(pipeline)
-    return this.fillBreadcrumb(ret)
+    return ret
   }
 }
