@@ -1,13 +1,15 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router'
+import VueTippy from 'vue-tippy'
+
 import 'uno.css'
-import './assets/main.css'
-import Toasted from '@hoppscotch/vue-toasted'
-import '@hoppscotch/vue-toasted/style.css'
 
 const app = createApp(App)
-
-app.use(router).use(Toasted)
-
+app.use(
+  VueTippy,
+  // optional
+  {
+    directive: 'tippy', // => v-tippy
+  },
+)
 app.mount('#app')

@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es2022",
     "useDefineForClassFields": false,
+    "allowSyntheticDefaultImports":true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "es2022",
@@ -15,7 +16,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src","__test__","vitest.config.ts","vite.config.ts"]
 }

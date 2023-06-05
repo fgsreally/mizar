@@ -1,8 +1,8 @@
 import { Factory } from 'phecda-server'
 import { describe, it } from 'vitest'
-import { ReportController } from '../src/controllers/report.controller'
+import { ReportController } from '../src/modules/report/report.controller'
 import { ErrorService } from '../src/services/error.service'
-import { InfoService } from '../src/services/info.service'
+import { InfoService } from '../src/modules/report/services/info.service'
 
 describe('express ', async () => {
   const { moduleMap } = await Factory([ReportController, ErrorService, InfoService])

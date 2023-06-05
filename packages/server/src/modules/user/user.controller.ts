@@ -1,8 +1,8 @@
 import { Body, Controller, Define, NotFoundException, Post } from 'phecda-server'
 import jwt from 'jsonwebtoken'
 import { compareSync } from 'bcryptjs'
-import type { UserService } from '../service/user'
-import { Permission } from '../dtos/user.model'
+import type { UserService } from './user.service'
+import { Permission } from './user.model'
 
 @Controller('/user')
 export class UserController {

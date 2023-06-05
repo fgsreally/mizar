@@ -1,12 +1,10 @@
 import { Factory, addGuard, addMiddleware, bindApp } from 'phecda-server'
 import express from 'express'
-import { ConfigController } from './controllers/config.controller'
-import { ReportController } from './controllers/report.controller'
-import 'reflect-metadata'
+import modules from './modules'
 import { jwtGuard } from './guards/jwt'
 import { uploadMiddleware } from './middlewares/upload'
-const data = await Factory([ConfigController, ReportController])
-data.output('pmeta.js')
+const data = await Factory(modules)
+data.output()
 const app = express()
 app.use(express.json())
 
