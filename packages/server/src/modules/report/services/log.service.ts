@@ -44,17 +44,37 @@ export class LogService extends BaseService<typeof LogEntity> {
     return ret
   }
 
-  async getErrorInTime(project: string, time = 60 * 60 * 1000) {
-    const oneHourAgo = new Date(Date.now() - time) // 一个小时之前的时间
-
+  async getErrorInTime(projectId: string, time: number) {
     const pipeline = [
       {
         $match: {
-          project,
+          project: projectId,
           level: 'error',
-          createdAt: { $gte: oneHourAgo },
+          timestamp: { $gte: time },
         },
       },
+      {
+        $project: {
+          hour: {
+            $floor: {
+              $divide: [
+                { $subtract: [Date.now(), '$timestamp'] },
+                1000 * 60 * 60, // 将毫秒转换为小时
+              ],
+            },
+          },
+          date: { $dateToString: { format: '%Y-%m-%d', date: '$timestamp' } },
+
+        },
+      },
+      {
+        $group: {
+          _id: '$hour',
+          count: { $sum: 1 },
+          // 其他聚合计算字段
+        },
+      },
+
       {
         $group: {
           _id: '$type',

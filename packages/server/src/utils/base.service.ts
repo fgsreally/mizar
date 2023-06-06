@@ -6,7 +6,7 @@ import type { FilterQuery } from 'mongoose'
 export abstract class BaseService<T extends new (...args: any) => any> {
   abstract readonly Model: ReturnModelType<T>
 
-  find(data: FilterQuery<InstanceType<T>>, limit = 10, skip = 0) {
+  find(data?: FilterQuery<InstanceType<T>>, limit = 10, skip = 0) {
     return this.Model.find(data).limit(limit).skip(skip)
   }
 
