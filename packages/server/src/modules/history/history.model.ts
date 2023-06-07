@@ -6,7 +6,7 @@ class HistoryEntity {
   _id!: string
 
   @prop({ required: true })
-   time!: string
+   time!: number
 
   @prop({ required: true })
   errorCount!: string

@@ -1,16 +1,24 @@
 import { BadRequestException, Inject } from 'phecda-server'
 
-import type { LogEntity } from '../models/log.model'
-import { LogModel } from '../models/log.model'
 import type { ProjectEntity } from './project.model'
 import { ProjectModel } from './project.model'
-import { BaseService } from '@/utils/base.service'
 
 @Inject
-export class LogService extends BaseService<typeof ProjectEntity> {
-  constructor() {
-    super()
+export class ProjectService {
+  readonly Model = ProjectModel
+
+  async create(body: ProjectEntity) {
+    return this.Model.create(body)
   }
 
-  readonly Model = ProjectModel
+  async findByName(name: string) {
+    const ret = await this.Model.findOne({ name })
+    if (!ret)
+      throw new BadRequestException('没找到同名项目')
+    return ret
+  }
+
+  async getAll() {
+    return this.Model.find()
+  }
 }

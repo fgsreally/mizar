@@ -2,8 +2,9 @@ import { Body, Controller, Define, Get, Param, Post } from 'phecda-server'
 
 import type { ProjectService } from './project.service'
 import type { ProjectEntity } from './project.model'
+import { Auth } from '@/decorators/auth'
 
-@Define('author', true)
+@Auth()
 @Controller('/project')
 export class ProjectController {
   constructor(protected projectService: ProjectService) {
@@ -16,8 +17,8 @@ export class ProjectController {
     return await this.projectService.create(body)
   }
 
-  @Get('/:project')
-  async getProjectInfo(@Param('project') project: string) {
-    return await this.projectService.findOne({ name: project })
+  @Get('/:name')
+  async getProjectInfo(@Param('name') name: string) {
+    return await this.projectService.findByName(name)
   }
 }

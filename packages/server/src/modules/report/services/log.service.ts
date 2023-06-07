@@ -2,29 +2,24 @@ import { BadRequestException, Inject } from 'phecda-server'
 
 import type { LogEntity } from '../models/log.model'
 import { LogModel } from '../models/log.model'
-import { BaseService } from '@/utils/base.service'
 import { formatDate } from '@/utils/time'
 
 const Hour = 60 * 60 * 1000
 
 @Inject
-export class LogService extends BaseService<typeof LogEntity> {
-  constructor() {
-    super()
-  }
-
+export class LogService {
   readonly Model = LogModel
 
   async getByUid(uid: string) {
-    const ret = await this.findOne({ uid }).populate('project')
+    const ret = await this.Model.findOne({ uid }).populate('project')
     if (!ret)
       throw new BadRequestException('找不到对应的错误')
 
     return ret
   }
 
-  async getByProject(project: string, limit?: number, skip?: number) {
-    const ret = await this.find({ project }, limit, skip).populate('project')
+  async getByProject(projectId: string, limit = 10, skip = 0) {
+    const ret = await this.Model.find({ project: projectId }).limit(limit).populate('project')
     if (!ret)
       throw new BadRequestException('找不到该项目相关的错误')
     return ret

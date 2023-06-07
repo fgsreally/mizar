@@ -1,25 +1,25 @@
 import { Inject } from 'phecda-server'
-import dayjs from 'dayjs'
 import type { ProjectService } from '../project/project.service'
 import type { LogService } from '../report/services/log.service'
-import type { HistoryEntity } from './history.model'
 import { HistoryModel } from './history.model'
-import { BaseService } from '@/utils/base.service'
+import { Auth } from '@/decorators/auth'
 
+@Auth()
 @Inject
-export class HistoryService extends BaseService<typeof HistoryEntity> {
+export class HistoryService {
   constructor(private readonly projectService: ProjectService, private readonly logService: LogService) {
-    super()
   }
 
   readonly Model = HistoryModel
 
-  async updateHistory() {
-    const data = await this.findOne().sort({ time: -1 }).exec()
+  async updateHistory(projectName: string) {
+    const project = await this.projectService.findByName(projectName)
+
+    const data = await this.Model.findOne({ project }).sort({ time: -1 }).exec()
     if (!data)
       return
 
-    const timeOffset = dayjs(Date.now()).diff(data.time, 'hour')
-    const projects = this.projectService.find()
+    const errorRecord = await this.logService.getErrorInTime(project.id, data.time)
+    console.log(errorRecord)
   }
 }
