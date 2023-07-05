@@ -1,13 +1,13 @@
 import type { P, ServerCtx } from 'phecda-server'
 import { NotFoundException } from 'phecda-server'
 import jwt from 'jsonwebtoken'
-import type { UserService } from '../services/user.service'
+import type { UserService } from '../modules/user/user.service'
 
 export function jwtGuard(User: UserService): P.Guard {
   return async (context: ServerCtx) => {
-    const { request, meta: { data: { define:{auth} } } } = context
+    const { request, meta: { data: { define: { auth } } } } = context
     const { url, headers } = request
-    if (!auth )
+    if (!auth)
       return true
 
     if (url)

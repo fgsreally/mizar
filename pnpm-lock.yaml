@@ -65,6 +65,9 @@ importers:
 
   packages/admin:
     dependencies:
+      '@iconify-json/ant-design':
+        specifier: ^1.1.5
+        version: 1.1.5
       '@iconify-json/lucide':
         specifier: ^1.1.96
         version: 1.1.96
@@ -230,6 +233,9 @@ importers:
         specifier: ^3.9.0
         version: 3.9.0
     devDependencies:
+      '@faker-js/faker':
+        specifier: ^8.0.2
+        version: 8.0.2
       typescript:
         specifier: ^4.9.3
         version: 4.9.4
@@ -988,6 +994,11 @@ packages:
       - supports-color
     dev: true
 
+  /@faker-js/faker@8.0.2:
+    resolution: {integrity: sha512-Uo3pGspElQW91PCvKSIAXoEgAUlRnH29sX2/p89kg7sP1m2PzCufHINd0FhTXQf6DYGiUlVncdSPa2F9wxed2A==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
+    dev: true
+
   /@graphql-typed-document-node/core@3.2.0(graphql@15.8.0):
     resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
     peerDependencies:
@@ -1015,6 +1026,12 @@ packages:
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
+
+  /@iconify-json/ant-design@1.1.5:
+    resolution: {integrity: sha512-lNEC95u9QdmS3GfMLnbAjLZCfQ9i4xURyn7P4UVHa6ejjLjs5FVyi/J+itrmnBpwb36YZo4CT0GDIn2AgvkNng==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
 
   /@iconify-json/lucide@1.1.96:
     resolution: {integrity: sha512-y0qoCKLdcRFCinhvgUGUUk2KkgM5PU7z1+MH4dYIrPQBusKTwfsXfw1+9X8P1jPKyG8G7mD3qleSVqXE5Rlemg==}

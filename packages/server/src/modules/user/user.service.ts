@@ -1,8 +1,10 @@
 import { Tag } from 'phecda-server'
-import type { UserEntity } from './user.model'
 import { UserModel } from './user.model'
-import { BaseService } from '@/utils/base.service'
 @Tag('user')
-export class UserService extends BaseService<typeof UserEntity> {
+export class UserService {
   readonly Model = UserModel
+
+  findById(id: string) {
+    return this.Model.findById(id)
+  }
 }

@@ -1,6 +1,6 @@
 import { Controller, Define, Get, Param, Query } from 'phecda-server'
 
-import type { LogService } from './services/log.service'
+import { LogService } from './services/query.service'
 @Define('author', true)
 @Controller('/query')
 export class QueryController {

@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Get, Param, Post, Watcher } from 'phecda-server'
 import { LinearClient } from '@linear/sdk'
-import type { LogEntity } from './../report/models/log.model'
-import { LogModel } from './../report/models/log.model'
+import type { LogEntity } from '../report/report.model'
+import { LogModel } from '../report/report.model'
 
 @Controller('/linear')
 export class LinearController {

@@ -1,13 +1,12 @@
 import { BadRequestException, Inject } from 'phecda-server'
 
-import type { LogEntity } from '../models/log.model'
-import { LogModel } from '../models/log.model'
+import { LogModel } from '../report.model'
 import { formatDate } from '@/utils/time'
 
 const Hour = 60 * 60 * 1000
 
 @Inject
-export class LogService {
+export class QueryService {
   readonly Model = LogModel
 
   async getByUid(uid: string) {
@@ -19,21 +18,21 @@ export class LogService {
   }
 
   async getByProject(projectId: string, limit = 10, skip = 0) {
-    const ret = await this.Model.find({ project: projectId }).limit(limit).populate('project')
+    const ret = await this.Model.find({ project: projectId }).limit(limit).skip(skip).populate('project')
     if (!ret)
       throw new BadRequestException('找不到该项目相关的错误')
     return ret
   }
 
   async getUserLog(project: string, user: string, timestamp: number) {
-    const ret = await this.find({
+    const ret = await this.Model.find({
       project,
       user,
       timestamp: {
         $gte: new Date(timestamp - Hour),
         $lt: new Date(timestamp + Hour),
       },
-    }, 100).populate('project')
+    }).populate('project')
     if (!ret)
       throw new BadRequestException(`找不到项目${project}、用户${user}在${formatDate(timestamp)}相关的记录`)
     return ret

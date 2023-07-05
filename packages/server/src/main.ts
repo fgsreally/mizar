@@ -4,7 +4,10 @@ import modules from './modules'
 import { jwtGuard } from './guards/jwt'
 import { uploadMiddleware } from './middlewares/upload'
 const data = await Factory(modules)
-data.output()
+if(import.meta.env.DEV){
+  data.output()
+}
+
 const app = express()
 app.use(express.json())
 

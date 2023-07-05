@@ -1,6 +1,6 @@
 import type { Ref } from '@typegoose/typegoose'
 import { getModelForClass, prop } from '@typegoose/typegoose'
-import type { ProjectEntity } from '../project/project.model'
+import { ProjectEntity } from '../project/project.model'
 
 class HistoryEntity {
   _id!: string
@@ -9,9 +9,12 @@ class HistoryEntity {
    time!: number
 
   @prop({ required: true })
-  errorCount!: string
+   date!: string
 
   @prop({ required: true })
+  errorCount!: string
+
+  @prop({ required: true, type: () => ProjectEntity })
   project!: Ref<ProjectEntity>
 }
 

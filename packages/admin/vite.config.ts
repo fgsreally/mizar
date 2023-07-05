@@ -47,7 +47,6 @@ export default defineConfig({
     },
     presets: [
       presetIcons({ /* options */ }),
-
       presetAttributify(),
       presetUno(),
     ],

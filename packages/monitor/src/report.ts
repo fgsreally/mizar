@@ -5,6 +5,7 @@ import { isSupportSendBeacon } from './utils'
 export class Reporter {
   protected fetch = isSupportSendBeacon() ? window.navigator.sendBeacon.bind(window.navigator) : reportWithXHR
   protected tasks = [] as any[]
+  protected user_agent = navigator.userAgent
   protected requestIdleCallback = window.requestIdleCallback ? window.requestIdleCallback.bind(window) : setTimeout
   constructor(protected readonly project: string, protected readonly url: string) {
 
@@ -13,7 +14,12 @@ export class Reporter {
   init() {
     const send = () => {
       if (this.tasks.length > 0) {
-        this.fetch(this.url, this.tasks)
+        this.fetch(this.url, {
+          tasks: this.tasks,
+          project: this.project, // 会话id
+          platform: PlatformTypes.BROWSER,
+          user_agent: this.user_agent, // 浏览器标识
+        })
         this.tasks = []
       }
     }
@@ -22,16 +28,15 @@ export class Reporter {
   }
 
   transform(datas: IAnyObject): IAnyObject & ClientInfoType {
-    const { userAgent, language } = navigator
+    const { language } = navigator
     const { title } = document
     const { href } = location
     return {
-      project: datas.project || this.project, // 会话id
-      platform: PlatformTypes.BROWSER,
+
       page_title: title, // 页面标题
       path: href, // 页面路径
       language, // 站点语言
-      user_agent: userAgent, // 浏览器标识
+
       ...datas,
     }
   }

@@ -1,12 +1,11 @@
-import { Body, Controller, Get, Init, NotFoundException, Param, Post } from 'phecda-server'
+import {   Init } from 'phecda-server'
 import * as mongoose from 'mongoose'
-
-@Controller('/config')
+import {logger} from '@/utils/log'
 export class ConfigController {
   @Init
   async init() {
-    console.log('start connect')
-    await mongoose.connect(import.meta.env.VITE_DB_URL, { dbName: 'megrez' })
-    console.log('connect db success')
+    logger.info('start connect')
+    await mongoose.connect(import.meta.env.VITE_DB_URL, { dbName: import.meta.env.VITE_DB_NAME })
+    logger.info('connect db success')
   }
 }

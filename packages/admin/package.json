@@ -10,6 +10,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@iconify-json/ant-design": "^1.1.5",
     "@iconify-json/lucide": "^1.1.96",
     "@unocss/preset-icons": "^0.51.5",
     "@unocss/transformer-directives": "^0.51.5",

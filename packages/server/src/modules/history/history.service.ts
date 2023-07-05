@@ -1,6 +1,6 @@
 import { Inject } from 'phecda-server'
-import type { ProjectService } from '../project/project.service'
-import type { LogService } from '../report/services/log.service'
+import { ProjectService } from '../project/project.service'
+import { LogService } from '../report/services/query.service'
 import { HistoryModel } from './history.model'
 import { Auth } from '@/decorators/auth'
 
@@ -20,6 +20,26 @@ export class HistoryService {
       return
 
     const errorRecord = await this.logService.getErrorInTime(project.id, data.time)
-    console.log(errorRecord)
+    if (errorRecord)
+
+      this.Model.insertMany(errorRecord)
+  }
+
+  async getByDate(projectName: string, date: Date) {
+    const project = await this.projectService.findByName(projectName)
+
+    const today = new Date() // 获取当前日期
+    const fiveDaysAgo = new Date(today.getTime() - 5 * 24 * 60 * 60 * 1000) // 计算五天前的日期
+
+    return this.Model.aggregate([
+      {
+        $match: {
+          timestamp: {
+            $gte: date,
+            $lt: new Date(date.getTime() + 24 * 60 * 60 * 1000),
+          },
+        },
+      },
+    ])
   }
 }

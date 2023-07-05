@@ -1,38 +1,37 @@
-import type { Ref } from '@typegoose/typegoose'
-import { getModelForClass, prop } from '@typegoose/typegoose'
+import { type Ref, getModelForClass, prop } from '@typegoose/typegoose'
 import { ProjectEntity } from '@/modules/project/project.model'
 
 enum PLATFORM {
   BROWSER = 1,
 }
 
-export class LogEntity {
+export class ReportEntity {
   @prop({ required: true })
-     level!: 'performance' | 'error' | 'info'
+  level!: 'performance' | 'error' | 'info'
 
   @prop({ required: true })
-     type!: string
+  type!: string
 
   @prop({ required: true })
-   uid!: string
+  uid!: string
 
   @prop({ required: true })
-   timestamp!: string
+  timestamp!: number
 
   @prop({ required: true, ref: () => ProjectEntity })
-   project!: Ref<ProjectEntity>
+  project!: Ref<ProjectEntity>
 
   @prop({ required: true, enum: PLATFORM })
-   platform!: PLATFORM
+  platform!: PLATFORM
 
   @prop({ required: true })
-    page_title!: string // 页面标题
+  page_title!: string // 页面标题
 
   @prop({ required: true })
-    url!: string // 页面路径
+  url!: string // 页面路径
 
   @prop({ required: true })
-    language!: string // 站点语言
+  language!: string // 站点语言
 
   @prop({ required: true })
   user_agent!: string // 浏览器标识
@@ -47,4 +46,4 @@ export class LogEntity {
   data!: any
 }
 
-export const LogModel = getModelForClass(LogEntity)
+export const ReportModel = getModelForClass(ReportEntity)

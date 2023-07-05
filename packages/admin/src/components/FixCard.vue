@@ -9,34 +9,45 @@ const isActive = ref(true)
 
 <template>
   <div fixed flex flex-col flex-items-center justify-center flex-wrap :style="`top:${offset}px;${direction}:0`">
-    <div
-      :title="description"
-      flex justify-center
-      flex-items-center w-5 h-5
-      rounded-full
-      absolute
-      top-0
-      z-10
-      translate-y="-100%"
-      :class="direction === 'left' ? 'left-0' : 'right-0'"
-      class="arrow"
-      @click="isActive = !isActive"
-    >
-      <div
-        w-5
-        h-5
-        :class="{
-          'i-lucide-arrow-left': direction === 'left',
-          'i-lucide-arrow-right': direction === 'right',
-          'rotate-180': !isActive,
-        }" transition-all
-      />
-    </div>
     <Transition :name="direction" appear>
-      <div v-show="isActive">
+      <div v-if="isActive">
+        <i
+          i-ant-design-close-outlined
+          hover:bg-green
+          cursor-pointer
+          absolute
+          color-white
+          top-2 z-10 :style="{ [direction]: '10%' }" @click="isActive = !isActive"
+        />
         <el-card class="card" p-4>
           <slot />
         </el-card>
+      </div>
+      <div
+        v-else
+        :title="description"
+        flex justify-center
+        flex-items-center w-10 h-10
+        rounded-full
+        absolute
+        top-0
+        z-10
+        translate-y="-100%"
+        :class="direction === 'left' ? 'left-0' : 'right-0'"
+        class="arrow"
+        hover:color-green
+        cursor-pointer
+        @click="isActive = !isActive"
+      >
+        <div
+          w-8
+          h-8
+          :class="{
+            'i-lucide-arrow-left': direction === 'left',
+            'i-lucide-arrow-right': direction === 'right',
+            'rotate-180': !isActive,
+          }" transition-all
+        />
       </div>
     </Transition>
   </div>

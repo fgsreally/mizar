@@ -2,11 +2,7 @@ import { getModelForClass, prop } from '@typegoose/typegoose'
 
 class ProjectEntity {
   _id!: string
-  // @prop({ required: true })
-  // public id!: string
 
-  // @prop({ required: true })
-  // public time!: string
   @prop({ required: true, unique: true })
    name!: string
 
@@ -14,7 +10,7 @@ class ProjectEntity {
   description!: string
 
   @prop()
-  linearId!: string
+  linearId?: string
 }
 
 const ProjectModel = getModelForClass(ProjectEntity)
