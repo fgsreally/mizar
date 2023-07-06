@@ -1,4 +1,4 @@
-import { Controller, Get } from 'phecda-server'
+import { BadRequestException, Controller, Get } from 'phecda-server'
 import { faker } from '@faker-js/faker'
 import { ProjectService } from '../project/project.service'
 import { ReportService } from '../report/report.service'
@@ -23,7 +23,7 @@ export class MockController {
 
     })
 
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 10; i++) {
       await this.reportService.create([{
         level: 'error',
 
@@ -35,7 +35,7 @@ export class MockController {
 
         project,
 
-        platform: 'browser',
+        platform: 1,
 
         page_title: '测试页面',
 

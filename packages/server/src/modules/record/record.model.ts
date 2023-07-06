@@ -1,16 +1,15 @@
-import { getModelForClass, prop } from '@typegoose/typegoose'
+import { type Ref, getModelForClass, prop } from '@typegoose/typegoose'
+import { ProjectEntity } from '../project/project.model'
 
 export class RecordEntity {
-  @prop({required: true,})
+  @prop({ required: true })
   data!: any
 
-  @prop({required: true,})
+  @prop({ required: true })
   type!: string
 
-  @prop({ required: true, ref: () => ProjectEntity })
-  project!: Ref<ProjectEntity>
-
-
+  @prop({ ref: () => ProjectEntity })
+  project?: Ref<ProjectEntity>
 }
 
 export const RecordModel = getModelForClass(RecordEntity)

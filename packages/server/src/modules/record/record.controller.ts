@@ -13,6 +13,6 @@ export class RecordController {
   @Get('/time')
   // @Middle('x-monitoring-system')
   async corn() {
-  
+    return this.recordService.corn()
   }
 }
