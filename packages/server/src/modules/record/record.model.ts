@@ -1,9 +1,9 @@
 import { type Ref, getModelForClass, prop } from '@typegoose/typegoose'
 import { ProjectEntity } from '../project/project.model'
 
-export class RecordEntity {
+export class RecordEntity<CustomData> {
   @prop({ required: true })
-  data!: any
+  data!: CustomData
 
   @prop({ required: true })
   type!: string

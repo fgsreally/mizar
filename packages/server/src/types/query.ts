@@ -1,10 +1,10 @@
-export namespace Query{
-  export interface ErrorStatistics {
-    data: {
-      count: number
-      message: string
+import type { ProjectEntity } from '@/modules/project/project.model'
 
-    }
+export namespace Q{
+  export interface ErrorStatistics {
+    count: number
+    message: string
+
   }
 
 }

@@ -18,32 +18,36 @@ export class RecordService {
   }
 
   private async computeError() {
+    const now = Date.now()
     const ret = await this.ReportModel.aggregate([{
       $match: {
         level: 'error',
         timestamp: {
-          $gte: Date.now() - 1000 * 60 * 60,
+          $gte: now - 1000 * 60 * 60,
         },
       },
     },
 
     {
       $group: {
-        _id: { project: '$project', message: '$message', url: '$url' },
+        _id: { project: '$project', stack: '$data.stack' },
+        arr: { $push: '$_id' },
         count: { $sum: 1 },
       },
     },
     {
       $project: {
         '_id': 0,
+        'data.arr': '$arr',
         'project': '$_id.project',
-        'data.message': '$_id.message',
+        'data.stack': '$_id.stack',
         'data.count': '$count',
       },
     },
     {
       $addFields: {
-        type: RECORD_EVENT.ERROR_STATISTICS,
+        'type': RECORD_EVENT.ERROR_STATISTICS,
+        'data.timestamp': now,
       },
     },
 
@@ -51,8 +55,9 @@ export class RecordService {
       allowDiskUse: true,
     })
 
+    // console.log(ret)
     // ret.forEach((item: any) => item.type = RECORD_EVENT.ERROR_STATISTICS)
-    this.Model.create(ret)
-    return ret
+
+    return this.Model.create(ret)
   }
 }

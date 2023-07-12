@@ -1,7 +1,7 @@
 import { Body, Controller, Define, NotFoundException, Post } from 'phecda-server'
 import jwt from 'jsonwebtoken'
 import { compareSync } from 'bcryptjs'
-import type { UserService } from './user.service'
+import { UserService } from './user.service'
 import { Permission } from './user.model'
 
 @Controller('/user')
@@ -21,9 +21,7 @@ export class UserController {
     const user = this.user.create({ name, email, password, permission: Permission.USER })
 
     // 创建 JWT Token，并返回给客户端
-    const token = jwt.sign({ userId: user._id }, import.meta.env.VITE_SECRET, {
-      expiresIn: '1h',
-    })
+    const token = jwt.sign({ userId: user._id }, import.meta.env.VITE_SECRET)
     return token
   }
 

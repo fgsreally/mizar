@@ -2,7 +2,7 @@ import type { Page } from 'puppeteer'
 import type { FetchOptions } from '../types'
 
 export async function handleFetch(page: Page, opts: FetchOptions) {
-  const { sourcemapParser, htmlParser, reqEventHandler } = opts
+  const { sourcemapParser, htmlTags, reqEventHandler } = opts
   // Create a new Chrome Devtools Protocol Session
   const client = await page.target().createCDPSession()
 
@@ -55,8 +55,27 @@ export async function handleFetch(page: Page, opts: FetchOptions) {
         requestId,
       })
       let html = Buffer.from(responseObj.body, 'base64').toString()
-
-      html = htmlParser?.(html) || html
+      if (htmlTags) {
+        htmlTags.forEach((item) => {
+          if (!item.injectTo)
+            item.injectTo = 'body'
+          switch (item.injectTo) {
+            case 'body':
+              html = html.replace('</body>', `${item.tag}</body>`)
+              break
+            case 'body-prepend':
+              html = html.replace(/<body\b[^>]*>/, _ => _ + item.tag)
+              break
+            case 'head':
+              html = html.replace('</head>', `${item.tag}</head>`)
+              break
+            case 'head-prepend':
+              html = html.replace(/<head\b[^>]*>/, _ => _ + item.tag)
+              break
+          }
+        })
+      }
+      // html = htmlParser?.(html) || html
 
       return await client.send('Fetch.fulfillRequest', {
         requestId,

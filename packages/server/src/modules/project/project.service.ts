@@ -20,6 +20,13 @@ export class ProjectService {
     return ret
   }
 
+  async findById(id: string) {
+    const ret = await this.Model.findById(id)
+    if (!ret)
+      throw new BadRequestException('没找到同名项目')
+    return ret
+  }
+
   async findByName(name: string) {
     const ret = await this.Model.findOne({ name })
     if (!ret)

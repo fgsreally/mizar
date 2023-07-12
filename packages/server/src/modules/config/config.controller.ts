@@ -6,9 +6,9 @@ import { logger } from '@/utils/log'
 export class ConfigController {
   @Init
   async init() {
-    console.log(1)
     // logger.info('start connect')
     await mongoose.connect(import.meta.env.VITE_DB_URL, { dbName: import.meta.env.VITE_DB_NAME })
+    console.log('connect')
 
     // logger.info('connect db success')
   }

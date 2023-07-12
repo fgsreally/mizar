@@ -4,9 +4,23 @@ import { ProjectService } from '../project/project.service'
 import { ReportService } from '../report/report.service'
 
 const errorMsg = [
-  'a//xxx',
-  'b//nnn',
-  'c//www',
+  '错误A',
+  '错误B',
+  '错误C',
+]
+
+const errorStack = [
+  `TypeError: Cannot read properties of null (reading 'length')
+  at http://127.0.0.1:8080/:16:14`,
+  `TypeError: Cannot read properties of null (reading 'name')
+  at http://127.0.0.1:8080/:16:15`,
+  `TypeError: Cannot read properties of null (reading 'fgs')
+  at http://127.0.0.1:8080/:16:16`,
+
+]
+
+const userId = [
+  '1', '2', '3',
 ]
 
 @Controller('/mock')
@@ -31,7 +45,7 @@ export class MockController {
 
         uid: faker.string.uuid(),
 
-        timestamp: Date.now(),
+        timestamp: Date.now() - Math.floor(Math.random() * 3) * 10000,
 
         project,
 
@@ -47,9 +61,11 @@ export class MockController {
 
         message: errorMsg[Math.floor(Math.random() * 3)],
 
-        user: faker.string.uuid(),
+        user: 'fgs',
 
-        data: {},
+        data: {
+          stack: errorStack[Math.floor(Math.random() * 3)],
+        },
       }])
     }
   }
