@@ -1,5 +1,5 @@
 {
-  "name": "admin",
+  "name": "mizar-view",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -34,6 +34,7 @@
     "vue-tippy": "^6.0.0"
   },
   "devDependencies": {
+    "vite-plugin-merak":"1.0.0-rc.14",
     "@types/node": "^18.14.2",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/tsconfig": "^0.1.3",

@@ -9,3 +9,12 @@ export function getPuppeteerState(): any {
 export function getIntervalConfig() {
   return window.MIZAR_SDK
 }
+
+export function parseType(type: string) {
+  switch (type) {
+    case 'error':
+      return '报错'
+    case '':
+      return 'go'
+  }
+}

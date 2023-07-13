@@ -14,6 +14,8 @@ declare module '@vue/runtime-core' {
     ACollapseItem: typeof import('@arco-design/web-vue')['CollapseItem']
     AutoImport: typeof import('./src/components/AutoImport.vue')['default']
     Container: typeof import('./src/components/Container.vue')['default']
+    ErrorActions: typeof import('./src/views/ErrorActions.vue')['default']
+    ErrorStatistics: typeof import('./src/views/ErrorStatistics.vue')['default']
     FixCard: typeof import('./src/components/FixCard.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
