@@ -1,20 +1,16 @@
-export default {
-  url: 'ws://127.0.0.1:9222/devtools/browser/4b24b090-0ed2-4951-b058-1d24d8fc9721',
-  opts: {
-    patterns: ['http://localhost:4173/**/*'],
-
-    fetchOptions: {
-      sourcemapParser: (url) => {
-        return url.replace('4173', '8080')
-      },
-      htmlTags: [
-        {
-          injectTo: 'head-prepend',
-          tag: '<script>console.log(\'mizar running\')</script>',
-        },
-      ],
+import { defineConfig, merakTag } from 'mizar-cli'
+export default defineConfig({
+  patterns: ['http://localhost:4173/*'],
+  inject: {
+    baseUrl: 'base',
+  },
+  fetch: {
+    sourcemapParser: (url: string) => {
+      return url.replace('4173', '8080')
     },
-
+    htmlTags: [
+      merakTag('mizar_view', 'http://localhost:8080'),
+    ],
   },
 
-}
+})
