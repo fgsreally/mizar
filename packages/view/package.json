@@ -10,7 +10,7 @@
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit | tip -e ../server/**/*"
+    "type-check": "vue-tsc --noEmit | tip --excludes=../server/**/*"
   },
   "devDependencies": {
     "@arco-design/web-vue": "^2.48.0",
