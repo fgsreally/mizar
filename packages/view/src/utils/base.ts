@@ -3,21 +3,22 @@ export function getQuery(key: string) {
   return new URLSearchParams(location.href.split('?')[1] || '').get(key)
 }
 
-// config injected from mizar-cli
-export function getConfig() {
-  return window.MIZAR_SDK
+// config injected from mizar-cli(puppeteer)
+export function getPuppeteerState(key?: string) {
+  return key ? window.MIZAR_PUPPETEER_STATE?.[key] : window.MIZAR_PUPPETEER_STATE
+}
+
+// config injected from mizar-monitor
+export function getMonitorState(key?: string) {
+  return key ? window.MIZAR_SDK?.[key] : window.MIZAR_SDK
 }
 
 export function getGlobal(key: string) {
-  return getConfig()[key]
-}
-
-export function getHook(key: string) {
-  return getConfig().hooks?.[key]
+  return getQuery(key) || getPuppeteerState(key) || getMonitorState(key)
 }
 
 export function runHook(key: string, param: any) {
-  return getHook(key)?.(param)
+  return (getPuppeteerState('hooks') || getMonitorState('hooks'))?.[key]?.(param)
 }
 
 export function log(msg: any) {

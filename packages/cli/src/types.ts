@@ -1,18 +1,23 @@
-import type { ConnectOptions } from 'puppeteer'
+import type { ConnectOptions } from 'puppeteer-core'
 export interface FetchOptions {
   sourcemapParser?: (url: string) => string
   htmlTags?: HtmlTag[]
   reqEventHandler?: (params: any) => void
 }
 
-export interface Options {
-  url: string
+export interface MizarOptions {
+  url?: string
   patterns: string[]
+  inject?: {
+    baseUrl: string
+    [key: string]: any
+  }
+
   fetch?: FetchOptions
   connect?: ConnectOptions// connect option for puppeteer
 }
 
-interface HtmlTag {
+export interface HtmlTag {
   injectTo?: 'head-prepend' | 'head' | 'body' | 'body-prepend'
-  tag: string
+  tag: string// tag or tags
 }

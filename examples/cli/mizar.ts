@@ -5,12 +5,13 @@ export default defineConfig({
     baseUrl: 'base',
   },
   fetch: {
-    sourcemapParser: (url: string) => {
-      return url.replace('4173', '8080')
-    },
+    // sourcemapParser: (url: string) => {
+    //   return url.replace('4173', '8080')
+    // },
     htmlTags: [
-      merakTag('mizar_view', 'http://localhost:8080'),
+      merakTag('mizar_view', 'http://localhost:5173/index.html', true),
     ],
   },
 
 })
+// https://fgsreally.github.io

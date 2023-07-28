@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useV } from 'phecda-vue'
+import { useR } from 'phecda-vue'
 import { useRequest } from '@/composables/request'
 import { getPlayback } from '@/api'
 import { Task } from '@/utils/tasks'
-const { errorId } = $(useV(BaseModel))
+const base = useR(BaseModel)
 
-const { data } = useRequest(getPlayback, { initData: [] as any, defaultParams: [errorId] })
+const { data } = useRequest(getPlayback, { initData: [] as any, defaultParams: [base.errorId] })
 const colorMap = {
   error: 'red',
   info: 'green',

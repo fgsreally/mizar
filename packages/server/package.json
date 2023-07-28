@@ -1,11 +1,18 @@
 {
   "name": "mizar-server",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.0",
+  "description": "",
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsup",
+    "prod": "tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
@@ -14,6 +21,8 @@
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",
+    "@types/unzipper": "^0.10.6",
+    "mongodb-memory-server": "^8.13.0",
     "typescript": "^4.9.3",
     "vite": "^4.2.0",
     "vite-plugin-node": "^3.0.2"
@@ -30,6 +39,7 @@
     "multer": "1.4.5-lts.1",
     "phecda-server": "^2.0.0",
     "reflect-metadata": "^0.1.13",
+    "tsup": "^6.5.0",
     "unzipper": "^0.10.14",
     "winston": "^3.9.0"
   }

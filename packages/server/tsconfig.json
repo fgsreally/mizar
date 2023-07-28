@@ -1,15 +1,14 @@
-{
+{  
+
   "compilerOptions": {
     "target": "es2022",
     "baseUrl": ".",
-
-    "composite":true,
     "useDefineForClassFields": false,
     "allowSyntheticDefaultImports":true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "es2022",
-    "lib": ["es2022", "DOM"],
+    "lib": ["es2022"],
     "moduleResolution": "Node",
     "strict": true,
     "resolveJsonModule": true,
@@ -24,5 +23,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src","vite.config.ts"]
+  "include": ["src/**/*.ts","vite.config.ts","__test__/**/*"]
 }

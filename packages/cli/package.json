@@ -1,13 +1,12 @@
 {
   "name": "mizar-cli",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.0",
   "description": "",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "type": "module",
-  "typings": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "bin": {
-    "mizar": "dist/cli.js"
+    "mizar": "dist/cli.mjs"
   },
   "scripts": {
     "dev": "tsup --watch",
@@ -21,12 +20,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/debug": "^4.1.8",
     "cac": "^6.7.14",
+    "debug": "^4.3.4",
     "minimatch": "^9.0.1",
     "node-fetch": "^3.3.1",
     "open": "^9.1.0",
     "picocolors": "^1.0.0",
-    "puppeteer": "^19.9.1",
+    "puppeteer-core": "^20.9.0",
     "unconfig": "^0.3.9"
   },
   "devDependencies": {

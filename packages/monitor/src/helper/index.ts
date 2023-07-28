@@ -8,17 +8,16 @@ export function monitorVue3(app: any) {
   (globalThis as any).MIZAR_SDK.vue(app)
 }
 
-
-export function setHook(key:string,hook:any){
-  if (!(globalThis as any).MIZAR_SDK) {
+export function setHook(key: string, hook: any) {
+  if (!(globalThis as any).MIZAR_SDK)
     return
-  }
-  (globalThis as any).MIZAR_SDK.hooks[key]=hook
+
+  (globalThis as any).MIZAR_SDK.hooks[key] = hook
 }
 
-export function setGlobal(key:string,value:any){
-  if (!(globalThis as any).MIZAR_SDK) {
+export function setGlobal(key: string, value: any) {
+  if (!(globalThis as any).MIZAR_SDK)
     return
-  }
-  (globalThis as any).MIZAR_SDK[key]=value
+
+  (globalThis as any).MIZAR_SDK[key] = value
 }

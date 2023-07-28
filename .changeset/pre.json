@@ -1,0 +1,16 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "vite-vue3": "0.0.0",
+    "mizar-cli": "0.0.0",
+    "mizar-monitor": "0.0.0",
+    "mizar-server": "0.0.0",
+    "mizar-view": "0.0.0",
+    "example-cli": "1.0.0",
+    "example-vite-vue3": "0.0.0"
+  },
+  "changesets": [
+    "cuddly-impalas-doubt"
+  ]
+}

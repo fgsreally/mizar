@@ -1,10 +1,13 @@
-import type { Browser, Page } from 'puppeteer'
+import type { Browser, Page } from 'puppeteer-core'
 import { minimatch } from 'minimatch'
+import Debug from 'debug'
 import { handleFetch } from './fetch'
-import type { Options } from './types'
+import type { MizarOptions } from './types'
 import { log } from './utils'
-export async function handleBrowser(browser: Browser, opts: Options) {
+const debug = Debug('mizar:page')
+export async function handleBrowser(browser: Browser, opts: MizarOptions) {
   const { patterns } = opts
+
   const pages = await browser.pages()
 
   function isValidUrl(url: string) {
@@ -18,19 +21,31 @@ export async function handleBrowser(browser: Browser, opts: Options) {
 
   pages.forEach((page) => {
     const url = page.url()
-    if (isValidUrl(url))
+    page.on('framenavigated', (e) => {
+      const url = e.url()
+      if (isValidUrl(e.url())) {
+        handlePage(page, opts)
+        debug(`control page '${url}' by navigated event`)
+      }
+    })
+    if (isValidUrl(url)) {
       handlePage(page, opts)
+      debug(`control page '${url}' by initialization`)
+    }
   })
 
   browser.on('targetcreated', async (target) => {
     if (target.type() === 'page') {
       const newPage = await target.page()
-      if (isValidUrl(newPage.url()))
+      const url = newPage.url()
+      if (isValidUrl(url)) {
         handlePage(newPage, opts)
+        debug(`control page '${url}' by targetcreated event`)
+      }
     }
   })
 }
 
-export async function handlePage(page: Page, opts: Options) {
+export async function handlePage(page: Page, opts: MizarOptions) {
   await handleFetch(page, opts.fetch || {})
 }

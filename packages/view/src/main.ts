@@ -5,7 +5,7 @@ import { Message } from '@arco-design/web-vue'
 
 import App from './App.vue'
 
-if (true) {
+if (import.meta.env.DEV || window.MIZAR_SDK) {
   const app = createApp(App)
   Message._context = app._context
 

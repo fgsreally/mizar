@@ -1,10 +1,13 @@
-import type { Page } from 'puppeteer'
+import type { Page } from 'puppeteer-core'
+import Debug from 'debug'
 import type { FetchOptions } from '../types'
+const debug = Debug('mizar:fetch')
 
 export async function handleFetch(page: Page, opts: FetchOptions) {
   const { sourcemapParser, htmlTags, reqEventHandler } = opts
   // Create a new Chrome Devtools Protocol Session
   const client = await page.target().createCDPSession()
+  const originUrl = page.url()
 
   await client.send('Fetch.enable', {
     patterns: [
@@ -29,13 +32,14 @@ export async function handleFetch(page: Page, opts: FetchOptions) {
         })
       }
       const sourcemapUrl = sourcemapParser(url)
-      console.log(`sourcemap:${sourcemapUrl}`)
       const responseObj = await client.send('Fetch.getResponseBody', {
         requestId,
       })
 
       const jsStr = Buffer.from(responseObj.body, 'base64').toString()
       const ret = `${jsStr}\n//# sourceMappingURL=${sourcemapUrl}.map`
+
+      debug(`add sourcemap ${ret} to ${url}`)
       return await client.send('Fetch.fulfillRequest', {
         requestId,
         responseCode: 200,
@@ -44,7 +48,9 @@ export async function handleFetch(page: Page, opts: FetchOptions) {
       })
     }
 
-    if (url.endsWith('.html')) {
+    if (url === originUrl) {
+      debug(`add htmlTags to ${url}`)
+
       const responseHeaders = reqEvent.responseHeaders || []
       if (!responseHeaders.some(({ name }: any) => name === 'Content-Type')) {
         responseHeaders.push({

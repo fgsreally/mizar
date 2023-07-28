@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Init, Param, Post } from 'phecda-server'
+import { Body, Controller, Get, Param, Post } from 'phecda-server'
 
 import { ProjectService } from './project.service'
 import type { ProjectEntity } from './project.model'

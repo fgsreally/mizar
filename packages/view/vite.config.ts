@@ -10,6 +10,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import presetIcons from '@unocss/preset-icons'
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
 import PC from 'phecda-client/vite'
+import {Merak} from 'vite-plugin-merak'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import Inspect from 'vite-plugin-inspect'
@@ -35,8 +36,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    // Merak('mizar-view'),
-
+    Merak('mizar_view'),
     Icons({ compiler: 'vue3' }),
     Inspect(),
     PC({ localPath: '../server/pmeta.js' ,

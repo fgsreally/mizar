@@ -1,10 +1,8 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Watcher } from 'phecda-server'
+import { BadRequestException, Body, Get, Param, Post, Tag } from 'phecda-server'
 import { LinearClient } from '@linear/sdk'
-import type { LogEntity } from '../report/report.model'
-import { LogModel } from '../report/report.model'
 
-@Controller('/linear')
-export class LinearController {
+@Tag('linear')
+export class LinearModule {
   private client = new LinearClient({ apiKey: import.meta.env.VITE_LINEAR_TOKEN })
   constructor() {
 
@@ -56,21 +54,21 @@ export class LinearController {
     return comment
   }
 
-  @Watcher('send_issue')
-  @Post('/issue')
-  async postIssue(
-  @Body('', false) data: LogEntity) {
-    const { message, project, data: { stack }, uid, url, type } = data
-    const issue = await this.client.createIssue({ teamId: import.meta.env.VITE_LINEAR_TEAMID, title: `[MIZAR] ${type}:${message}`, description: stack, projectId: (project as any).linearId })
-    this.client.createAttachment({
-      title: 'issue link',
-      url: addQuery(url, 'mizar-error-id', uid),
-      issueId: (await issue.issue)!.id,
-    })
-  }
+  // @Watcher('send_issue')
+  // @Post('/issue')
+  // async postIssue(
+  // @Body('', false) data: LogEntity) {
+  //   const { message, project, data: { stack }, uid, url, type } = data
+  //   const issue = await this.client.createIssue({ teamId: import.meta.env.VITE_LINEAR_TEAMID, title: `[MIZAR] ${type}:${message}`, description: stack, projectId: (project as any).linearId })
+  //   this.client.createAttachment({
+  //     title: 'issue link',
+  //     url: addQuery(url, 'mizar-error-id', uid),
+  //     issueId: (await issue.issue)!.id,
+  //   })
+  // }
 }
 
-function addQuery(url: string, key: string, val: string) {
+export function addQuery(url: string, key: string, val: string) {
   const query = url.split('?')[1]
   if (!query)
     return `${url}?${key}=${val}`

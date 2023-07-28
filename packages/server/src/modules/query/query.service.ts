@@ -1,7 +1,7 @@
 import { Inject } from 'phecda-server'
 import mongoose from 'mongoose'
 import { ReportService } from '../report/report.service'
-import { RecordEntity, RecordModel } from '../record/record.model'
+import { RecordModel } from '../record/record.model'
 import { RECORD_EVENT } from '@/common'
 
 @Inject
