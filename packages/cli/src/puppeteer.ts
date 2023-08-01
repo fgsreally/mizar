@@ -52,6 +52,9 @@ export async function handlePage(page: Page, opts: MizarOptions) {
   if (pageSet.has(page))
     return false
   pageSet.add(page)
+  page.on('close', () => {
+    pageSet.delete(page)
+  })
   await handleFetch(page, opts.fetch || {})
   log(`control page --${page.url()} (total:${pageSet.size})`, 'gray')
 
