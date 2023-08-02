@@ -1,7 +1,4 @@
 <script setup lang="ts">
-/**
- * A recreation of this demo: https://observablehq.com/@d3/line-chart
- */
 import Chart from 'chart.js/auto'
 import { useR } from 'phecda-vue'
 import { $request, getErrorStatistics } from '@/api'
@@ -10,7 +7,6 @@ const container = $ref<HTMLCanvasElement | null>(null)
 let visible = $ref(false)
 let list = $ref<Awaited<ReturnType<typeof getActions>>>([])
 let chart: Chart
-// onMounted()
 let base =useR(BaseModel)
 
  

@@ -61,6 +61,7 @@ export async function handleFetch(page: Page, opts: FetchOptions) {
       const responseObj = await client.send('Fetch.getResponseBody', {
         requestId,
       })
+
       let html = Buffer.from(responseObj.body, 'base64').toString()
       if (htmlTags) {
         htmlTags.forEach((item) => {

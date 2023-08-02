@@ -4,7 +4,11 @@ import Debug from 'debug'
 import { handleFetch } from './fetch'
 import type { MizarOptions } from './types'
 import { log } from './utils'
+
 const debug = Debug('mizar:page')
+
+const pageSet = new Set<Page>()// page can't be handle twice
+
 export async function handleBrowser(browser: Browser, opts: MizarOptions) {
   const { patterns } = opts
 
@@ -12,25 +16,23 @@ export async function handleBrowser(browser: Browser, opts: MizarOptions) {
 
   function isValidUrl(url: string) {
     for (const pattern of patterns) {
-      if (minimatch(url, pattern)) {
-        log(`control page --${url}`, 'gray')
+      if (minimatch(url, pattern))
         return true
-      }
     }
   }
 
-  pages.forEach((page) => {
+  pages.forEach(async (page) => {
     const url = page.url()
-    page.on('framenavigated', (e) => {
+    page.on('framenavigated', async (e) => {
       const url = e.url()
       if (isValidUrl(e.url())) {
-        handlePage(page, opts)
-        debug(`control page '${url}' by navigated event`)
+        if (await handlePage(page, opts))
+          debug(`control page '${url}' by navigated event`)
       }
     })
     if (isValidUrl(url)) {
-      handlePage(page, opts)
-      debug(`control page '${url}' by initialization`)
+      if (await handlePage(page, opts))
+        debug(`control page '${url}' by initialization`)
     }
   })
 
@@ -39,13 +41,22 @@ export async function handleBrowser(browser: Browser, opts: MizarOptions) {
       const newPage = await target.page()
       const url = newPage.url()
       if (isValidUrl(url)) {
-        handlePage(newPage, opts)
-        debug(`control page '${url}' by targetcreated event`)
+        if (await handlePage(newPage, opts))
+          debug(`control page '${url}' by targetcreated event`)
       }
     }
   })
 }
 
 export async function handlePage(page: Page, opts: MizarOptions) {
+  if (pageSet.has(page))
+    return false
+  pageSet.add(page)
+  page.on('close', () => {
+    pageSet.delete(page)
+  })
   await handleFetch(page, opts.fetch || {})
+  log(`control page --${page.url()} (total:${pageSet.size})`, 'gray')
+
+  return true
 }
