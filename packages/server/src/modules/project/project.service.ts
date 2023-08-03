@@ -1,9 +1,9 @@
-import { BadRequestException, Init, Inject } from 'phecda-server'
+import { BadRequestException, Init, Tag } from 'phecda-server'
 
 import type { ProjectEntity } from './project.model'
 import { ProjectModel } from './project.model'
 
-@Inject
+@Tag('project')
 export class ProjectService {
   public ids: string[] = []
 
@@ -12,7 +12,6 @@ export class ProjectService {
   async init() {
     const ret = await this.getAll()
     this.ids = ret.map(item => item._id.toString())
-    console.log(this.ids)
   }
 
   async create(body: Omit<ProjectEntity, '_id'>) {

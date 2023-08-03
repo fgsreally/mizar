@@ -1,13 +1,12 @@
-import { Inject, NotFoundException } from 'phecda-server'
+import { NotFoundException, Tag } from 'phecda-server'
 import type { ReportEntity } from './report.model'
 import { ReportModel } from './report.model'
 
-@Inject
+@Tag('report')
 export class ReportService {
   readonly Model = ReportModel
 
   create(arr: ReportEntity[]) {
-    console.log(arr)
     return this.Model.create(arr)
   }
 

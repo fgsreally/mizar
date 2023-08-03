@@ -7,9 +7,9 @@ export enum Permission {
   USER = 'user',
 }
 class UserEntity {
-  _id!: Types.ObjectId
+  // _id!: Types.ObjectId
   @prop({ required: true, enum: Permission })
-  permission!: Permission
+  permission!: string
 
   @prop({ required: true })
   name!: string

@@ -1,11 +1,11 @@
-import { Inject } from 'phecda-server'
+import { Tag } from 'phecda-server'
 import { ReportService } from '../report/report.service'
 import { ReportModel } from '../report/report.model'
 import type { RecordEntity } from './record.model'
 import { RecordModel } from './record.model'
 import { RECORD_EVENT } from '@/common'
 
-@Inject
+@Tag('record')
 export class RecordService {
   constructor(protected reportService: ReportService) {
 

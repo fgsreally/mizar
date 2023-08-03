@@ -1,10 +1,10 @@
-import { Inject } from 'phecda-server'
+import { Tag } from 'phecda-server'
 import mongoose from 'mongoose'
 import { ReportService } from '../report/report.service'
 import { RecordModel } from '../record/record.model'
 import { RECORD_EVENT } from '@/common'
 
-@Inject
+@Tag('query')
 export class QueryService {
   constructor(protected reportService: ReportService) {
 
