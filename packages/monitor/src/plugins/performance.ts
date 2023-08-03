@@ -1,12 +1,12 @@
-import type { Plugin, } from '../types'
-import {  PerTypes } from '../constant'
+import type { Plugin } from '../types'
+import { PerTypes } from '../constant'
 import getBasic from './lib/basic'
 import getVitals from './lib/vitals'
 import getResources from './lib/resources'
 import FPSTool from './lib/fps'
 import FMPTiming from './lib/fmp'
 
-export interface PerformanceBasicMsgType  {
+export interface PerformanceBasicMsgType {
   dnsSearch: number // DNS 解析耗时
   tcpConnect: number // TCP 连接耗时
   sslConnect: number // SSL安全连接耗时
@@ -29,11 +29,11 @@ interface ResourceType {
   time: number
 }
 
-export interface PerformanceSingleMsgType  {
+export interface PerformanceSingleMsgType {
   value: number | ResourceType[]
 }
 
-export interface PerformanceVitalsMsgType  {
+export interface PerformanceVitalsMsgType {
   lcp: number
   fid: number
   cls: number
@@ -50,7 +50,7 @@ export enum PerformanceFeat {
 export function perf(performancOff: string[] = []): Plugin {
   return ({ report }) => {
     // 禁用标识
- 
+
     let fpsTool = new FPSTool()
     if (!performancOff.includes(PerformanceFeat.FPS))
       fpsTool = new FPSTool()
@@ -61,7 +61,7 @@ export function perf(performancOff: string[] = []): Plugin {
       fmpTiming.initObserver().then((fmp) => {
         report({
           type: PerTypes.FMP,
-          level:'performance',
+          level: 'performance',
 
           data: fmp,
         })
@@ -71,10 +71,10 @@ export function perf(performancOff: string[] = []): Plugin {
     if (!performancOff.includes(PerformanceFeat.VITALS)) {
       getVitals().then((vitals) => {
         report({
-          type:PerTypes.VITALS,
-          level:'performance',
+          type: PerTypes.VITALS,
+          level: 'performance',
 
-          data:vitals,
+          data: vitals,
         })
       })
     }
@@ -85,14 +85,14 @@ export function perf(performancOff: string[] = []): Plugin {
         if (!performancOff.includes(PerformanceFeat.BASIC)) {
           report({
             type: PerTypes.BASIC,
-            data:getBasic(),
-            level:'performance'
+            data: getBasic(),
+            level: 'performance',
           })
         }
         // 资源耗时
         if (!performancOff.includes(PerformanceFeat.RESOURCE)) {
           report({
-            level:'performance',
+            level: 'performance',
             type: PerTypes.RESOURCE,
             data: getResources(),
           })
@@ -101,11 +101,12 @@ export function perf(performancOff: string[] = []): Plugin {
         if (!performancOff.includes(PerformanceFeat.FPS)) {
           fpsTool.run()
           setTimeout(() => {
-            report({  
-              
-              level:'performance',
-            type: PerTypes.FPS,
-            data: fpsTool.get()})
+            report({
+
+              level: 'performance',
+              type: PerTypes.FPS,
+              data: fpsTool.get(),
+            })
             fpsTool.destroy()
           }, 500)
         }

@@ -1,19 +1,19 @@
 {
   "name": "example-cli",
   "version": "1.0.0",
+  "private": true,
   "description": "",
-  "private":true,
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "http-server": "^14.1.1"
-  },
   "dependencies": {
     "mizar-cli": "workspace:^"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
   }
 }

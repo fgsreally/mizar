@@ -35,20 +35,20 @@ export function vue(): Plugin {
   }
 }
 
-function parseStack(stack: string) {
-  const REG_EXP = /([a-z|0-9|-]*).js:[0-9]*:[0-9]*/
-  const [, sourceFile] = stack.split('\n')
-  const [matched = ''] = REG_EXP.exec(sourceFile) || []
-  const [fileName, lineCol = ''] = matched.split('.js:')
-  const [line, col] = lineCol.split(':')
-  const lineno = Number(line)
-  const colno = Number(col)
-  if (!fileName)
-    return {}
+// function parseStack(stack: string) {
+//   const REG_EXP = /([a-z|0-9|-]*).js:[0-9]*:[0-9]*/
+//   const [, sourceFile] = stack.split('\n')
+//   const [matched = ''] = REG_EXP.exec(sourceFile) || []
+//   const [fileName, lineCol = ''] = matched.split('.js:')
+//   const [line, col] = lineCol.split(':')
+//   const lineno = Number(line)
+//   const colno = Number(col)
+//   if (!fileName)
+//     return {}
 
-  return {
-    lineno,
-    colno,
-    filename: `${fileName}.js`,
-  }
-}
+//   return {
+//     lineno,
+//     colno,
+//     filename: `${fileName}.js`,
+//   }
+// }

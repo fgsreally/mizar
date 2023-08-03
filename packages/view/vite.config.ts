@@ -10,24 +10,24 @@ import AutoImport from 'unplugin-auto-import/vite'
 import presetIcons from '@unocss/preset-icons'
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
 import PC from 'phecda-client/vite'
-import {Merak} from 'vite-plugin-merak'
+import { Merak } from 'vite-plugin-merak'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import Inspect from 'vite-plugin-inspect'
-import { ArcoResolver } from 'unplugin-vue-components/resolvers';
+import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 // import Merak from 'vite-plugin-merak'
 
 // https://vitejs.dev/config/
 export default defineConfig({
 
-  server:{
-    proxy:{
+  server: {
+    proxy: {
       '/api': {
         target: 'http://localhost:3699',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: path => path.replace(/^\/api/, ''),
       },
-    }
+    },
   },
 
   resolve: {
@@ -39,10 +39,11 @@ export default defineConfig({
     Merak('mizar_view'),
     Icons({ compiler: 'vue3' }),
     Inspect(),
-    PC({ localPath: '../server/pmeta.js' ,
-    port:' http://localhost:3699/'
-  
-  }),
+    PC({
+      localPath: '../server/pmeta.js',
+      port: ' http://localhost:3699/',
+
+    }),
     VueMacros({
       setupBlock: true,
       plugins: {
@@ -56,17 +57,17 @@ export default defineConfig({
       dirs: ['./src/**/*'],
       imports: ['vue', 'vue-router'],
       resolvers: [
-        ArcoResolver({sideEffect:true})
+        ArcoResolver({ sideEffect: true }),
       ],
     }),
     Components({
-      dirs: ['./src/components','./src/views'],
+      dirs: ['./src/components', './src/views'],
       directoryAsNamespace: false,
       resolvers: [
         ArcoResolver(),
         IconsResolver({
 
-      }),],
+        })],
 
     }),
     ReactivityTransform(),

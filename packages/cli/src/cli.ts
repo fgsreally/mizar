@@ -1,30 +1,30 @@
 import { dirname, resolve } from 'path'
+import { fileURLToPath } from 'node:url'
 import cac from 'cac'
 import open from 'open'
 import puppeteer from 'puppeteer-core'
+import { loadConfig } from 'unconfig'
+import fetch from 'node-fetch'
 import pkgs from '../package.json'
 import { handleBrowser } from './puppeteer'
 import { log } from './utils'
-import { fileURLToPath } from 'node:url'
-import { loadConfig } from 'unconfig'
-import fetch from 'node-fetch'
-import {useReadLine } from './readline'
-import Debug from 'debug'
+import { useReadLine } from './readline'
 import type { MizarOptions } from './types'
+// import Debug from 'debug'
+// const root = process.cwd()
 
 const cli = cac('mizar')
-const root = process.cwd()
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const rootConfigPath = resolve(__dirname, '../assets/mizar.ts')
 async function getConfig(file: string) {
-  const { config, } = await loadConfig({
+  const { config } = await loadConfig({
     sources: [
       // load from `my.config.xx`
       {
         files: file,
         // default extensions
-        extensions: ['ts', 'mts', 'cts', 'js', 'mjs', 'cjs',],
+        extensions: ['ts', 'mts', 'cts', 'js', 'mjs', 'cjs'],
       },
 
       // ...
@@ -36,8 +36,6 @@ async function getConfig(file: string) {
 
   return config
 }
-
-
 
 cli
   .command('open', 'open mizar.config.json to edit')
@@ -53,15 +51,15 @@ cli
   .action(async (opts) => {
     try {
       const config = await getConfig(opts.config) as MizarOptions
-      if (!config.fetch) {
+      if (!config.fetch)
         config.fetch = {}
-      }
-      if (!config.fetch.htmlTags) {
+
+      if (!config.fetch.htmlTags)
         config.fetch.htmlTags = []
-      }
+
       config.fetch.htmlTags.push({
         injectTo: 'head-prepend',
-        tag: `<script>window.MIZAR_PUPPETEER_STATE=${JSON.stringify(config.inject || {})}</script>`
+        tag: `<script>window.MIZAR_PUPPETEER_STATE=${JSON.stringify(config.inject || {})}</script>`,
       })
       const ret = await fetch(config.url ? new URL(config.url, '/json/version').href : 'http://127.0.0.1:9222/json/version')
       const { webSocketDebuggerUrl } = await ret.json() as any
@@ -76,10 +74,10 @@ cli
       await handleBrowser(browser, config)
       log('start server!')
       useReadLine()
-    } catch (e) {
+    }
+    catch (e) {
       console.log(e)
     }
-
   })
 
 cli.help()

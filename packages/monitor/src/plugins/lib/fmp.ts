@@ -32,11 +32,11 @@ interface ScoreParamType {
 export default class FMPTiming {
   statusCollector: ElTimeType[]
   flag: boolean
-  observer: MutationObserver
+  observer?: MutationObserver
   callbackCount: number
   WW: number
   WH: number
-  resourceMap: {}
+  resourceMap: Record<string, any>
   private readonly startTime: number
 
   constructor() {
@@ -45,7 +45,7 @@ export default class FMPTiming {
 
     this.statusCollector = []
     this.flag = true
-    this.observer = null
+    // this.observer = null
     this.callbackCount = 1
     this.resourceMap = {}
 
@@ -54,7 +54,7 @@ export default class FMPTiming {
   }
 
   initObserver(): Promise<number> {
-    return new Promise((rs) => {
+    return new Promise((resolve) => {
       this.observer = new MutationObserver(() => {
         const t = Date.now() - this.startTime
         const bodyTarget = document.body
@@ -73,13 +73,13 @@ export default class FMPTiming {
       })
 
       if (document.readyState === 'complete') {
-        this.calFinallScore().then(res => rs(res))
+        this.calFinallScore().then(res => resolve(res as any))
       }
       else {
         window.addEventListener(
           'load',
           () => {
-            this.calFinallScore().then(res => rs(res))
+            this.calFinallScore().then(res => resolve(res as any))
           },
           true,
         )
@@ -97,7 +97,7 @@ export default class FMPTiming {
     // 特性侦测
     if (window.getComputedStyle) {
       // 优先使用W3C规范
-      return window.getComputedStyle(element)[att]
+      return window.getComputedStyle(element)[att as any]
     }
     else {
       // 针对IE9以下兼容
@@ -128,21 +128,21 @@ export default class FMPTiming {
     }
   }
 
-  private calFinallScore(): Promise<number> {
-    return new Promise((rs) => {
+  private calFinallScore(): Promise<number | null> {
+    return new Promise((resolve) => {
       if (!MutationObserver || !this.flag) {
-        rs(null)
+        resolve(null)
         return
       }
       if (this.checkCanCal(this.startTime)) {
-        this.observer.disconnect()
+        this.observer?.disconnect()
         this.flag = false
         const res = this.deepTraversal(document.body)
         if (!res) {
-          rs(null)
+          resolve(null)
           return
         }
-        let tp: ScoreParamType = null
+        let tp: ScoreParamType
         res.dpss.forEach((item) => {
           if (tp && tp.st) {
             if (tp.st < item.st)
@@ -153,14 +153,15 @@ export default class FMPTiming {
           }
         })
         this.initResourceMap()
+        // @ts-expect-error assign
         const resultSet = this.filterTheResultSet(tp.els)
         const fmpTiming = this.calResult(resultSet)
-        rs(formatDecimal(fmpTiming, 3))
+        resolve(formatDecimal(fmpTiming, 3))
       }
       else {
         setTimeout(() => {
           this.calFinallScore().then((res) => {
-            rs(res)
+            resolve(res)
           })
         }, DELAY)
       }
@@ -180,10 +181,10 @@ export default class FMPTiming {
       else if (weight === 2) {
         switch (tagName) {
           case 'IMG':
-            {
-              t = this.resourceMap[(node as HTMLImageElement).src]
-            }
+          {
+            t = this.resourceMap[(node as HTMLImageElement).src]
             break
+          }
           case 'SVG':
             {
               const index = +node.getAttribute('f_c')! - 1
@@ -210,7 +211,7 @@ export default class FMPTiming {
         switch (tagName) {
           case 'CANVAS':
             {
-              const index = +node.getAttribute('f_c') - 1
+              const index = +node.getAttribute('f_c')! - 1
               t = this.statusCollector[index].t
             }
 
@@ -255,12 +256,13 @@ export default class FMPTiming {
    */
   private deepTraversal(node: HTMLElement): ScoreParamType {
     if (!node)
-      return null
+      return null as any
 
     const dpss = []
 
-    for (let i = 0, child; (child = node.children[i]); i++) {
-      const s = this.deepTraversal(child)
+    for (let i = 0, child; node.children[i]; i++) {
+      child = node.children[i]
+      const s = this.deepTraversal(child as HTMLElement)
       if (s.st)
         dpss.push(s)
     }
@@ -282,7 +284,7 @@ export default class FMPTiming {
     dpss.forEach((item) => {
       sdp += item.st
     })
-
+    // @ts-expect-error enum
     let weight = TAG_WEIGHT_MAP[node.tagName] || 1 // 权重
 
     if (weight === 1 && !['initial', 'none'].includes(this.getStyle(node, 'background-image'))) {

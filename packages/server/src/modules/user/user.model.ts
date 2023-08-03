@@ -1,6 +1,5 @@
 import { getModelForClass, prop } from '@typegoose/typegoose'
 import { hashSync } from 'bcryptjs'
-import type { Types } from 'mongoose'
 
 export enum Permission {
   ADMIN = 'admin',

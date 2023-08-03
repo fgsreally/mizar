@@ -1,10 +1,10 @@
-{  
+{
 
   "compilerOptions": {
     "target": "es2022",
     "baseUrl": ".",
     "useDefineForClassFields": false,
-    "allowSyntheticDefaultImports":true,
+    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "es2022",
@@ -23,5 +23,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts","vite.config.ts","__test__/**/*"]
+  "include": ["src/**/*.ts", "vite.config.ts", "__test__/**/*"]
 }

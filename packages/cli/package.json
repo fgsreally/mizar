@@ -2,23 +2,23 @@
   "name": "mizar-cli",
   "version": "1.0.0-alpha.0",
   "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "bin": {
     "mizar": "dist/cli.mjs"
   },
-  "scripts": {
-    "dev": "tsup --watch",
-    "build": "tsup"
-  },
-  "keywords": [],
   "files": [
     "dist",
     "assets"
   ],
-  "author": "",
-  "license": "ISC",
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup"
+  },
   "dependencies": {
     "@types/debug": "^4.1.8",
     "cac": "^6.7.14",

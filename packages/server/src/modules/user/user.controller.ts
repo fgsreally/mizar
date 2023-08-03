@@ -1,7 +1,7 @@
 import { Body, Controller, Define, NotFoundException, Post, Tag } from 'phecda-server'
 import jwt from 'jsonwebtoken'
 import { compareSync } from 'bcryptjs'
-import { Permission, UserModel } from './user.model'
+import { Permission } from './user.model'
 import { UserService } from './user.service'
 
 @Tag('user')

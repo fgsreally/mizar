@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useV } from 'phecda-vue'
-let { errorIds } = $(useV(BaseModel))
-
+const { errorIds } = $(useV(BaseModel))
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-import {  Controller, Get,  } from 'phecda-server'
+import { Controller, Get } from 'phecda-server'
 
 import { RecordService } from './record.service'
 

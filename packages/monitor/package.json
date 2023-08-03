@@ -2,24 +2,24 @@
   "name": "mizar-monitor",
   "version": "1.0.0-alpha.0",
   "description": "",
+  "author": "",
+  "license": "MIT",
+  "keywords": [],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup"
   },
-  "keywords": [],
-  "author": "",
-  "files": [
-    "dist"
-  ],
-  "license": "MIT",
-  "devDependencies": {
-    "tsup": "^6.5.0"
-  },
   "dependencies": {
     "rrweb": "2.0.0-alpha.4",
     "web-vitals": "^3.3.1"
+  },
+  "devDependencies": {
+    "tsup": "^6.5.0"
   }
 }

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 const { direction, offset } = defineProps<{ direction: 'top' | 'left' | 'right' | 'bottom'; offset: number; label: string }>()
 
-
 const isActive = ref(true)
 const computedStyle = computed(() => {
   const d = ['top', 'bottom'].includes(direction) ? 'left' : 'top'
@@ -12,18 +11,22 @@ const computedStyle = computed(() => {
 </script>
 
 <template>
-  <section :class="`mz-transition mz-${direction} ${isActive ? '' : 'mz-hidden'}`" m-4 :style="computedStyle"
-    style="position: fixed;z-index: 10;user-select: none;will-change:auto">
+  <section
+    :class="`mz-transition mz-${direction} ${isActive ? '' : 'mz-hidden'}`" m-4 :style="computedStyle"
+    style="position: fixed;z-index: 10;user-select: none;will-change:auto"
+  >
     <header>
-      <p class="drag-wrapper__label"  color-blue>
+      <p class="drag-wrapper__label" color-blue>
         {{ label }}
       </p>
     </header>
     <slot />
     <a-button :class="`mz-${direction}`" @click="isActive = !isActive">
-      <div class="i-lucide:arrow-down" :class="{
-        'rotate-180': isActive,
-      }" />
+      <div
+        class="i-lucide:arrow-down" :class="{
+          'rotate-180': isActive,
+        }"
+      />
     </a-button>
   </section>
 </template>
@@ -72,4 +75,5 @@ button {
     transform: translateX(-100%);
 
   }
-}</style>
+}
+</style>

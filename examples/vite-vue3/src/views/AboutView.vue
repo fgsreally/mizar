@@ -8,16 +8,16 @@ function throwReject() {
 }
 
 Promise.reject('setup')
-async function xhr(){
- const ret=await axios.get('/a.json',)
- console.log(ret)
+async function xhr() {
+  const ret = await axios.get('/a.json')
+  console.log(ret)
 }
 
-function requestFetch(){
-  fetch('/test',{
-    method:'POST',
-    //@ts-expect-error not
-    body:{name:'fga'}
+function requestFetch() {
+  fetch('/test', {
+    method: 'POST',
+    // @ts-expect-error not
+    body: { name: 'fga' },
   })
 }
 </script>
@@ -35,7 +35,8 @@ function requestFetch(){
       错误请求xhr
     </button>
     <button @click="requestFetch">
-      错误请求fetch  </button>
+      错误请求fetch
+    </button>
   </div>
 </template>
 

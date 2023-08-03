@@ -1,8 +1,8 @@
 {
   "name": "example-playground",
-  "private": true,
-  "version": "0.0.1-alpha.0",
   "type": "module",
+  "version": "0.0.1-alpha.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
