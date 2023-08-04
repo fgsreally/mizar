@@ -11,33 +11,36 @@ import { ProjectController } from './modules/project/project.controller'
 import { LinearModule } from './modules/webhooks'
 import { jwtGuard } from './guards/jwt'
 import { uploadMiddleware } from './middlewares/upload'
-const data = await Factory([
-  ConfigModule,
-  UserController,
-  FileController,
-  ProjectController,
-  ReportController,
-  RecordController,
-  QueryController,
-  LinearModule,
-
-])
-if (import.meta.env.DEV)
-  data.output()
 
 const app = express()
+async function start() {
+  const data = await Factory([
+    ConfigModule,
+    UserController,
+    FileController,
+    ProjectController,
+    ReportController,
+    RecordController,
+    QueryController,
+    LinearModule,
+  ])
+  if (import.meta.env.DEV)
+    data.output()
+  app.use(express.json())
+  app.use(cors())
 
-app.use(express.json())
-app.use(cors())
+  // ServerContext.middlewareRecord.upload = uploadMiddleware
+  addMiddleware('upload', uploadMiddleware)
 
-// ServerContext.middlewareRecord.upload = uploadMiddleware
-addMiddleware('upload', uploadMiddleware)
+  addGuard('jwt', jwtGuard(data.moduleMap.get('user')!))
 
-addGuard('jwt', jwtGuard(data.moduleMap.get('user')!))
+  bindApp(app, data, { globalGuards: ['jwt'] })
+  if (import.meta.env.PROD) {
+    app.listen(3000)
+    console.log('start listening')
+  }
+}
 
-bindApp(app, data, { globalGuards: ['jwt'] })
+start()
 
 export const viteNodeApp = app
-
-if (import.meta.env.PROD)
-  app.listen(3000)

@@ -9,7 +9,7 @@ export default defineConfig(() => {
       },
     },
     ssr: {
-      format: 'es',
+      format: 'cjs',
     },
     server: {
       port: 3699,

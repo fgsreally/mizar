@@ -36,10 +36,10 @@ export class ReportEntity {
   user!: string // 用户
 
   @prop()
-  message: string // 信息
+  message!: string // 信息
 
   @prop()
-  data: any
+  data!: any
 }
 
 export const ReportModel = getModelForClass(ReportEntity)

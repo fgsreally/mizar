@@ -1,10 +1,9 @@
-import { Body, Controller, Define, NotFoundException, Post, Tag } from 'phecda-server'
+import { Body, Controller, Define, NotFoundException, Post } from 'phecda-server'
 import jwt from 'jsonwebtoken'
 import { compareSync } from 'bcryptjs'
 import { Permission } from './user.model'
 import { UserService } from './user.service'
 
-@Tag('user')
 @Controller('/user')
 export class UserController {
   constructor(protected userService: UserService) {

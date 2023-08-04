@@ -10,8 +10,8 @@ export class ProjectService {
   readonly Model = ProjectModel
   @Init
   async init() {
-    const ret = await this.getAll()
-    this.ids = ret.map(item => item._id.toString())
+    // const ret = await this.getAll().catch(() => [])
+    // this.ids = ret.map(item => item._id.toString())
   }
 
   async create(body: Omit<ProjectEntity, '_id'>) {
@@ -35,6 +35,6 @@ export class ProjectService {
   }
 
   async getAll() {
-    return this.Model.find({})
+    // return this.Model.find({})
   }
 }
