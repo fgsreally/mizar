@@ -2,7 +2,9 @@ version: "3.7"
 
 services:
   app:
-    build: ./
+    build: 
+      context: ./
+      dockerfile: dockerfile
     ports:
       - 3000:3000
     volumes:
@@ -15,11 +17,11 @@ services:
     image: mongo
     restart: always
     volumes:
-      - mongo:/data
+      - mongodb_data:/data/db
     ports:
       - '27017:27017'
 
 volumes:
-  mongo:
+  mongodb_data:
  
 
