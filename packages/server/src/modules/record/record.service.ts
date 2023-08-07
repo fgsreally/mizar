@@ -1,9 +1,9 @@
 import { Tag } from 'phecda-server'
 import { ReportService } from '../report/report.service'
 import { ReportModel } from '../report/report.model'
+import { RECORD_EVENT } from '../../common'
 import type { RecordEntity } from './record.model'
 import { RecordModel } from './record.model'
-import { RECORD_EVENT } from '@/common'
 
 @Tag('record')
 export class RecordService {

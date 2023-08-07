@@ -2,7 +2,7 @@ import { Tag } from 'phecda-server'
 import mongoose from 'mongoose'
 import { ReportService } from '../report/report.service'
 import { RecordModel } from '../record/record.model'
-import { RECORD_EVENT } from '@/common'
+import { RECORD_EVENT } from '../../common'
 
 @Tag('query')
 export class QueryService {

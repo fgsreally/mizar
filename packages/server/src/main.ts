@@ -1,6 +1,7 @@
 import { Factory, addGuard, addMiddleware, bindApp } from 'phecda-server'
 import express from 'express'
 import cors from 'cors'
+import dotenv from 'dotenv'
 import { UserController } from './modules/user/user.controller'
 import { ConfigModule } from './modules/config/config.module'
 import { ReportController } from './modules/report/report.controller'
@@ -11,7 +12,7 @@ import { ProjectController } from './modules/project/project.controller'
 import { LinearModule } from './modules/webhooks'
 import { jwtGuard } from './guards/jwt'
 import { uploadMiddleware } from './middlewares/upload'
-
+dotenv.config()
 const app = express()
 async function start() {
   const data = await Factory([
@@ -24,7 +25,7 @@ async function start() {
     QueryController,
     LinearModule,
   ])
-  if (import.meta.env.DEV)
+  if (process.env.DEV)
     data.output()
   app.use(express.json())
   app.use(cors())
@@ -35,12 +36,7 @@ async function start() {
   addGuard('jwt', jwtGuard(data.moduleMap.get('user')!))
 
   bindApp(app, data, { globalGuards: ['jwt'] })
-  if (import.meta.env.PROD) {
-    app.listen(3000)
-    console.log('start listening')
-  }
+  app.listen(3000)
 }
 
 start()
-
-export const viteNodeApp = app

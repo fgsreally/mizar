@@ -1,5 +1,5 @@
 import { type Ref, getModelForClass, prop } from '@typegoose/typegoose'
-import { ProjectEntity } from '@/modules/project/project.model'
+import { ProjectEntity } from '../project/project.model'
 
 export class ReportEntity {
   @prop({ required: true })

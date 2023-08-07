@@ -3,7 +3,7 @@ import { LinearClient } from '@linear/sdk'
 
 @Tag('linear')
 export class LinearModule {
-  private client = new LinearClient({ apiKey: import.meta.env.VITE_LINEAR_TOKEN })
+  private client = new LinearClient({ apiKey: process.env.VITE_LINEAR_TOKEN })
   constructor() {
 
   }
@@ -59,7 +59,7 @@ export class LinearModule {
   // async postIssue(
   // @Body('', false) data: LogEntity) {
   //   const { message, project, data: { stack }, uid, url, type } = data
-  //   const issue = await this.client.createIssue({ teamId: import.meta.env.VITE_LINEAR_TEAMID, title: `[MIZAR] ${type}:${message}`, description: stack, projectId: (project as any).linearId })
+  //   const issue = await this.client.createIssue({ teamId: process.env.VITE_LINEAR_TEAMID, title: `[MIZAR] ${type}:${message}`, description: stack, projectId: (project as any).linearId })
   //   this.client.createAttachment({
   //     title: 'issue link',
   //     url: addQuery(url, 'mizar-error-id', uid),

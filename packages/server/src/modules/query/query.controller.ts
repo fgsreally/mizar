@@ -5,7 +5,7 @@ import { ProjectService } from '../project/project.service'
 import { ReportService } from '../report/report.service'
 import type { ReportEntity } from '../report/report.model'
 import { QueryService } from './query.service'
-import type { Q } from '@/types/query'
+import type { Q } from '../../types/query'
 
 // @Middle('project')
 @Controller('/query')

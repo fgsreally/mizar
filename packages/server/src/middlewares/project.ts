@@ -1,4 +1,4 @@
-import type { ProjectService } from '@/modules/project/project.service'
+import type { ProjectService } from '../modules/project/project.service'
 
 export function projectMiddleware(projectService: ProjectService) {
   return async (req: any, _: any, next: any) => {

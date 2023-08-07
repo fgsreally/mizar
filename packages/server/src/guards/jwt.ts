@@ -13,7 +13,7 @@ export function jwtGuard(User: UserService): P.Guard {
     if (url)
       return true
     try {
-      const decodedToken: any = jwt.verify(headers.authorization!, import.meta.env.VITE_SECRET)
+      const decodedToken: any = jwt.verify(headers.authorization!, process.env.VITE_SECRET!)
 
       const user = await User.findById(decodedToken.userId)
 

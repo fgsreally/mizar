@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post } from 'phecda-server'
 
+import { Auth } from '../../decorators/auth'
 import { ProjectService } from './project.service'
 import type { ProjectEntity } from './project.model'
-import { Auth } from '@/decorators/auth'
 
 @Auth()
 @Controller('/project')
