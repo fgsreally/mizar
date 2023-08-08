@@ -9,10 +9,10 @@
     "dist"
   ],
   "scripts": {
-    "dev": "vite",
+    "dev": "nodemon src/main.ts",
     "build": "tsup",
-    "prod": "tsc && vite build",
-    "preview": "vite preview",
+    "prod": "tsc",
+    "start:prod": " node dist/src/main.js",
     "test": "vitest"
   },
   "dependencies": {

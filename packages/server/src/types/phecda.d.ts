@@ -11,3 +11,4 @@ declare module 'phecda-server'{
       }
 }
 
+declare global

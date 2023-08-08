@@ -21,7 +21,7 @@ export class UserController {
     const user = await this.userService.create({ name, email, password, permission: Permission.USER })
 
     // 创建 JWT Token，并返回给客户端
-    const token = jwt.sign({ userId: user._id }, process.env.VITE_SECRET!)
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET!)
     return token
   }
 
@@ -41,7 +41,7 @@ export class UserController {
       throw new NotFoundException('密码不正确')
 
     // 创建 JWT Token，并返回给客户端
-    const token = jwt.sign({ userId: user.id }, process.env.VITE_SECRET!)
+    const token = jwt.sign({ userId: user.id }, process.env.SECRET!)
     return token
   }
 }

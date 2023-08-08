@@ -41,7 +41,6 @@ export default defineConfig({
     Inspect(),
     PC({
       localPath: '../server/pmeta.js',
-      port: ' http://localhost:3699/',
 
     }),
     VueMacros({

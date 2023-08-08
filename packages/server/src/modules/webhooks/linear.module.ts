@@ -3,7 +3,7 @@ import { LinearClient } from '@linear/sdk'
 
 @Tag('linear')
 export class LinearModule {
-  private client = new LinearClient({ apiKey: process.env.VITE_LINEAR_TOKEN })
+  private client = new LinearClient({ apiKey: process.env.LINEAR_TOKEN })
   constructor() {
 
   }

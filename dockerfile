@@ -7,12 +7,11 @@ WORKDIR /app
 
 
 FROM base AS build
-RUN  pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm --filter -r mizar-server run prod
-
-
-FROM base AS common
-COPY --from=build /app/packages/server/dist /app/packages/server/dist
 WORKDIR /app/packages/server
 EXPOSE 3000
-CMD [ "node", "dist/main.js" ]
+CMD [ "node", "dist/src/main.js" ]
+
+
+

@@ -4,8 +4,8 @@ import type { RecordEntity } from '../record/record.model'
 import { ProjectService } from '../project/project.service'
 import { ReportService } from '../report/report.service'
 import type { ReportEntity } from '../report/report.model'
-import { QueryService } from './query.service'
 import type { Q } from '../../types/query'
+import { QueryService } from './query.service'
 
 // @Middle('project')
 @Controller('/query')

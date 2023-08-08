@@ -1,6 +1,8 @@
 declare global {
-    interface ProcessEnv {
-  [key:string]:string
-    }
+  namespace NodeJS {
+        interface ProcessEnv {
+            [key: string]: string
+        } 
+      }
 }
-export {}
+export { }

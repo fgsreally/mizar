@@ -1,21 +1,36 @@
-version: "3.8"
+version: '3.7'
+
+networks:
+    demo-net:
+        name: demo-net
+        driver: bridge
+
+volumes:
+    db:
+
 services:
-    api:
-        # image: thomas-oliver/nestjs-dockerized 
+    mizar-server:
+        container_name: mizar-server
+        image: mizar-server
         build:
-            dockerfile: Dockerfile
             context: .
-        depends_on: 
-            - mongo
-        environment: 
-            DATABASE_URL: postgres://user:password@postgres:5432/db
-            NODE_ENV: development
-            PORT: 3000
+            dockerfile: Dockerfile
+        restart: always
+        networks:
+            - demo-net
         ports:
-            - "3000:3000"
+            - 3000:3000
+        depends_on:
+            - db
 
-    mongo:
-        image: mongo:5.0
+    db:
+        image: mongo:5.0.1
+        restart: always
+        volumes:
+            - db:/data/db
+        networks:
+            - demo-net
         ports:
-            - "27017:27017"
+            - 27017:27017    
 
+    
