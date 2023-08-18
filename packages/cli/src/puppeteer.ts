@@ -10,6 +10,7 @@ const debug = Debug('mizar:page')
 const pageSet = new Set<Page>()// page can't be handle twice
 
 export async function handleBrowser(browser: Browser, opts: MizarOptions) {
+  pageSet.clear()
   const { patterns } = opts
 
   const pages = await browser.pages()

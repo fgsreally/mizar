@@ -1,4 +1,4 @@
-import { defineConfig, merakTag } from 'mizar-cli'
+import { defineConfig, documentPicInPic, merakTag } from 'mizar-cli'
 export default defineConfig({
   patterns: ['http://localhost:4173/*'],
   inject: {
@@ -9,7 +9,10 @@ export default defineConfig({
     //   return url.replace('4173', '8080')
     // },
     htmlTags: [
-      merakTag('mizar_view', 'http://localhost:5173/index.html', true),
+      merakTag([{
+        id: 'mizar_view', url: 'http://localhost:5173/index.html',
+      }], true),
+      documentPicInPic('[data-merak-id="mizar_view"]'),
     ],
   },
 

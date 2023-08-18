@@ -25,8 +25,7 @@ async function start() {
     QueryController,
     LinearModule,
   ])
-  if (process.env.DEV)
-    data.output()
+  data.output()
   app.use(express.json())
   app.use(cors())
 
