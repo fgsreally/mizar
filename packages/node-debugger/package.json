@@ -1,0 +1,26 @@
+{
+  "name": "mizar-node-debugger",
+  "version": "1.0.0-alpha.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "find-port": "^3.0.0",
+    "http-proxy-middleware": "^2.0.6",
+    "nanoid": "^4.0.2"
+  },
+  "devDependencies": {
+    "tsup": "^6.5.0"
+  }
+}
