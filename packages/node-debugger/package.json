@@ -16,9 +16,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "find-port": "^3.0.0",
-    "http-proxy-middleware": "^2.0.6",
-    "nanoid": "^4.0.2"
+    "@types/http-proxy": "^1.17.11",
+    "http-proxy": "^1.18.1",
+    "nanoid": "3",
+    "portfinder": "^1.0.32"
   },
   "devDependencies": {
     "tsup": "^6.5.0"
