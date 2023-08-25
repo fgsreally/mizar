@@ -1,4 +1,4 @@
-import type { ConnectOptions } from 'puppeteer-core'
+import type { ConnectOptions, Page } from 'puppeteer-core'
 export interface FetchOptions {
   sourcemapParser?: (url: string) => string
   htmlTags?: HtmlTag[]
@@ -12,7 +12,7 @@ export interface MizarOptions {
     baseUrl: string
     [key: string]: any
   }
-
+  handlePage?: (page: Page) => void
   fetch?: FetchOptions
   connect?: ConnectOptions// connect option for puppeteer
 }

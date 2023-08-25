@@ -22,7 +22,7 @@ export function debugApp(app: any, entry: string, options: any) {
 
   setTimeout(() => {
     client = connect(pipeFile)
-  }, 1000)
+  }, 3000)
 
   function getPortFromBridge(id: string) {
     if (portMap.has(id))
