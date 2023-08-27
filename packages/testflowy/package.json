@@ -1,0 +1,28 @@
+{
+  "name": "mizar-testflowy",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@testing-library/dom": "^9.3.1",
+    "@testing-library/user-event": "^14.4.3",
+    "@thisbeyond/solid-dnd": "^0.7.4",
+    "crypto-js": "^4.1.1",
+    "i18n-less-translate": "^0.2.29",
+    "nano-storage": "^1.2.2",
+    "solid-icons": "^1.0.11",
+    "solid-js": "^1.7.8",
+    "solid-msg": "^0.3.1",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vite-plugin-solid": "^2.7.0"
+  }
+}
