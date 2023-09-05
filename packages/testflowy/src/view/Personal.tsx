@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { SHA256 } from 'crypto-js'
 import { AiOutlineFileAdd } from 'solid-icons/ai'
 import { FaSolidPlay } from 'solid-icons/fa'
@@ -5,15 +6,27 @@ import { HiSolidInbox } from 'solid-icons/hi'
 import { RiDevelopmentGitMergeFill } from 'solid-icons/ri'
 import { VsChromeClose } from 'solid-icons/vs'
 import type { JSX } from 'solid-js'
-import { For, Match, Show, Switch, createEffect, createRoot, createSignal } from 'solid-js'
+import {
+  For,
+  Match,
+  Show,
+  Switch,
+  createEffect,
+  createRoot,
+  createSignal,
+} from 'solid-js'
 import { createStore } from 'solid-js/store'
 import { solidMsg } from 'solid-msg'
-import { apis } from '../../routers/_apis'
-import { ClickArrowSvg } from '../../routers/svgs/ClickArrow'
-import { LoadingSvg } from '../../routers/svgs/LoadingSvg'
+import { ClickArrowSvg } from '../svg/ClickArrow'
+import { LoadingSvg } from '../svg/LoadingSvg'
 import type { DraftListItem } from '../../routers/task/draft/_getDrafts'
 import { actions } from '../record/actions'
-import { focusFail, getSdkAuth, sdkStorage, setFocusFail } from '../record/data'
+import {
+  focusFail,
+  getSdkAuth,
+  sdkStorage,
+  setFocusFail,
+} from '../record/data'
 import { TaskItem } from './TaskItem'
 import { createScroll } from '@/component/createScroll'
 import { UxAlert } from '@/component/UxAlert'
@@ -22,8 +35,8 @@ import { UxInput } from '@/component/UxInput'
 import { createPanelShow } from '@/component/UxPanel'
 import { UxSearch } from '@/component/UxSearch'
 import { UxSolidIcon } from '@/component/UxSolidIcon'
-import { timeLabelFull } from '@/utils/strs'
 import { i18n } from '@/i18n'
+import { $$asset, $request } from '@/api'
 
 const cssInputOutline = {
   'padding': '0.25em 0.75em',
@@ -42,14 +55,20 @@ const cssInputOutlineFocus = {
 const [search, setSearch] = createRoot(() => createSignal(''))
 
 export function Personal() {
-  const [drafts, setDrafts] = createStore<{ list: DraftListItem[] }>({ list: [] })
+  const [drafts, setDrafts] = createStore<{ list: DraftListItem[] }>({
+    list: [
+
+    ],
+  })
   const [selectors, setSelectors] = createSignal(0)
-  const [showDeleteAlert, setShowDeleteAlert, onCloseDeleteAlert] = createPanelShow()
+  const [showDeleteAlert, setShowDeleteAlert, onCloseDeleteAlert]
+    = createPanelShow()
   const [newName, setNewName] = createSignal('')
   const [loading, setLoading] = createSignal(true)
   const [end, setEnd] = createSignal(false)
   const [total, setTotal] = createSignal(0)
-  const [addCodeAlert, setAddCodeAlert, onCloseAddCodeAlert] = createPanelShow(false)
+  const [addCodeAlert, setAddCodeAlert, onCloseAddCodeAlert]
+    = createPanelShow(false)
   const scroll = createScroll({
     onBottom: () => {
       if (!end())
@@ -63,17 +82,23 @@ export function Personal() {
   })
   const fetchDraftList = async () => {
     setLoading(true)
-    const res = await apis.task_draft.getDrafts({
-      ...getSdkAuth(),
-      name: search(),
-      pass: focusFail() ? false : void 0,
-      offset: drafts.list.length,
-      limit: 20,
-    })
-    const nextList = drafts.list.concat(res.data)
+    const { data } = await $request($$asset.query({
+      category: 'testflowy',
+    }))
+    // const res = await apis.task_draft.getDrafts({
+    //   ...getSdkAuth(),
+    //   name: search(),
+    //   pass: focusFail() ? false : void 0,
+    //   offset: drafts.list.length,
+    //   limit: 20,
+    // })
+    const nextList = drafts.list.concat(data.map(({ data, _id, name }) => {
+      return { ...data, id: _id, name }
+    }),
+    )
     setDrafts('list', [...nextList])
-    setEnd(nextList.length === res.total)
-    setTotal(res.total)
+    setEnd(nextList.length === 0)
+    setTotal(0)
     setLoading(false)
   }
   fetchDraftList()
@@ -91,74 +116,105 @@ export function Personal() {
     // const name = timeLabel() + "-" + Math.random().toString(36).substring(2);
     const name = newName()
     setNewName('')
-    const res = await apis.task_draft.createDraft({
-      name,
-      code: JSON.stringify({ events: [], meta: { version: '1.0.0' } }),
-      md5: SHA256('').toString(),
-      auth: getSdkAuth(),
-      steps: 0,
-      crypto: false,
-      pass: false,
-    })
-    if (res.ok) {
-      solidMsg.dark(i18n.创建成功, 500)
-      fetchDraftList()
-    }
+    await $request(
+      $$asset.create(
+        {
+          category: 'testflowy',
+          name,
+          description: '11',
+          data: {
+            code: JSON.stringify({ events: [], meta: { version: '1.0.0' } }),
+            md5: SHA256('').toString(),
+            // auth: getSdkAuth(),
+            steps: 0,
+            crypto: false,
+            pass: false,
+          },
+        },
+        '64f597f74190aec55c949a6f',
+      ),
+    )
+
+    solidMsg.dark(i18n.创建成功, 500)
+    fetchDraftList()
   }
 
   const handleCopyCode = async (item: DraftListItem) => {
-    const data = await apis.task_draft.getDraftDetail({ ...getSdkAuth(), id: item.id! })
+    const { data: { data } } = await $request($$asset.findById(item.id))
     const name = `${item.name}_copy`
-    const res = await apis.task_draft.createDraft({
-      name,
-      code: data.code,
-      md5: SHA256(data.code).toString(),
-      auth: getSdkAuth(),
-      steps: data.steps,
-      crypto: false,
-      pass: false,
-    })
-    if (res.ok) {
-      solidMsg.dark(i18n.复制成功, 500)
-      fetchDraftList()
-    }
+
+    await $request(
+      $$asset.create(
+        {
+          category: 'testflowy',
+          name,
+          description: '',
+          data: {
+            code: data.code,
+            md5: SHA256(data.code).toString(),
+            steps: data.steps,
+            crypto: false,
+            pass: false,
+          },
+        },
+        '',
+      ),
+    )
+    // const data = await apis.task_draft.getDraftDetail({ ...getSdkAuth(), id: item.id! })
+    // const name = `${item.name}_copy`
+    // const res = await apis.task_draft.createDraft({
+    //   name,
+    //   code: data.code,
+    //   md5: SHA256(data.code).toString(),
+    //   auth: getSdkAuth(),
+    //   steps: data.steps,
+    //   crypto: false,
+    //   pass: false,
+    // })
+    // if (res.ok) {
+    //   solidMsg.dark(i18n.复制成功, 500)
+    //   fetchDraftList()
+    // }
   }
 
   const handleDeleteCode = async (item: DraftListItem) => {
     if (!(await setShowDeleteAlert()))
       return
 
-    const res = await apis.task_draft.deleteDraft({ auth: getSdkAuth(), id: item.id! })
-    if (res.ok) {
-      solidMsg.dark(i18n.删除成功, 500)
-      fetchSearch()
-    }
+    await $request($$asset.deleteById(item.id))
+    solidMsg.dark(i18n.删除成功, 500)
+    fetchSearch()
   }
 
   const handleUpdate = async (name: string, item: DraftListItem) => {
-    const data = await apis.task_draft.getDraftDetail({ ...getSdkAuth(), id: item.id! })
-    const res = await apis.task_draft.updateDarft({
-      auth: getSdkAuth(),
-      id: item.id!,
-      md5: SHA256(data.code).toString(),
-      crypto: false,
+    const { data } = await $request($$asset.findById(item.id))
+    await $request($$asset.updateById(item.id, {
       name,
-    })
-    if (res.ok)
-      solidMsg.dark(i18n.修改成功, 500)
+      category: 'testflowy',
+      description: '',
+      data: {
+        md5: SHA256(data.data.code).toString(),
+        crypto: false,
+      },
+    }))
 
-    return res.ok
+    solidMsg.dark(i18n.修改成功, 500)
+    return true
   }
 
   const handleUse = async (item: DraftListItem) => {
-    const res = await apis.task_draft.getDraftDetail({ ...getSdkAuth(), id: item.id! })
-    actions.load(res)
+    const { data: { data, _id: id, name } } = await $request($$asset.findById(item.id))
+
+    actions.load({ ...data, id, name })
     actions.run('draft')
   }
 
   const handleEdit = async (item: DraftListItem) => {
-    const res = await apis.task_draft.getDraftDetail({ ...getSdkAuth(), id: item.id! })
-    actions.load(res)
+    const { data } = await $request($$asset.findById(item.id))
+
+    actions.load(data.data)
+    // const res = await apis.task_draft.getDraftDetail({ ...getSdkAuth(), id: item.id! })
+    // actions.load(res)
     actions.openEditor()
   }
 
@@ -169,8 +225,10 @@ export function Personal() {
       solidMsg.dark(i18n.同时执行条数不能大于十条, 1000)
       return
     }
-    const res = await apis.task_draft.getDraftDetails({ auth: getSdkAuth(), ids })
-    actions.loadAll(res.data.filter(v => v.code !== '[]'))
+    const { data } = await $request($$asset.query(item.id))
+    actions.loadAll(data.data.filter(v => v.code !== '[]'))
+    // const res = await apis.task_draft.getDraftDetails({ auth: getSdkAuth(), ids })
+    // actions.loadAll(res.data.filter(v => v.code !== '[]'))
     actions.run('draft')
   }
 
@@ -178,27 +236,26 @@ export function Personal() {
   const handleMergeSelected = async () => {
     const selectedList = drafts.list.filter(v => v.selected)
     const ids = selectedList.map(v => v.id!)
-    const res = await apis.task_draft.getDraftDetails({ auth: getSdkAuth(), ids })
-    actions.loadAll(res.data)
-    const name = `merge-${timeLabelFull()}`
-    const add = await apis.task_draft.createDraft({
-      name,
-      code: JSON.stringify([]),
-      md5: SHA256('').toString(),
-      auth: getSdkAuth(),
-      steps: 0,
-      crypto: false,
-      pass: false,
-    })
-    if (add.ok) {
-      solidMsg.dark(i18n.创建成功, 500)
-      fetchSearch()
-    }
+    // const res = await apis.task_draft.getDraftDetails({ auth: getSdkAuth(), ids })
+    // actions.loadAll(res.data)
+    // const name = `merge-${timeLabelFull()}`
+    // const add = await apis.task_draft.createDraft({
+    //   name,
+    //   code: JSON.stringify([]),
+    //   md5: SHA256('').toString(),
+    //   auth: getSdkAuth(),
+    //   steps: 0,
+    //   crypto: false,
+    //   pass: false,
+    // })
+    // if (add.ok) {
+    //   solidMsg.dark(i18n.创建成功, 500)
+    //   fetchSearch()
+    // }
   }
   const handleShareCloud = async (item: DraftListItem) => {
-    const res = await apis.task_task.createTask({ ...getSdkAuth(), id: item.id! })
-    if (res.ok)
-      solidMsg.dark(i18n.操作成功, 500)
+    // const res = await apis.task_task.createTask({ ...getSdkAuth(), id: item.id! })
+    solidMsg.dark(i18n.操作成功, 500)
   }
 
   const handleChangeFocusFail = () => {
@@ -215,7 +272,12 @@ export function Personal() {
         'overflow-y': 'hidden',
       }}
     >
-      <UxAlert class="testflowy" zIndex={9900} onclose={onCloseDeleteAlert} show={showDeleteAlert()}>
+      <UxAlert
+        class="testflowy"
+        zIndex={9900}
+        onclose={onCloseDeleteAlert}
+        show={showDeleteAlert()}
+      >
         <div
           style={{
             'padding': '1.5em',
@@ -227,7 +289,12 @@ export function Personal() {
           {i18n.确定删除该测试}
         </div>
       </UxAlert>
-      <UxAlert class="testflowy" zIndex={9900} onclose={onCloseAddCodeAlert} show={addCodeAlert()}>
+      <UxAlert
+        class="testflowy"
+        zIndex={9900}
+        onclose={onCloseAddCodeAlert}
+        show={addCodeAlert()}
+      >
         <div
           style={{
             padding: '1em',

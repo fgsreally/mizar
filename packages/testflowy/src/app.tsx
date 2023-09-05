@@ -4,7 +4,7 @@ import { createSignal } from 'solid-js'
 import { render } from 'solid-js/web'
 import { solidMsg } from 'solid-msg'
 import { i18n } from '../i18n'
-import { apiOptions } from '../routers/_apis'
+// import { apiOptions } from '../routers/_apis'
 import { record } from './record'
 import { autoReplay } from './record/autoReplay'
 import { logout, sdkStorage, setIsExample, setIsHidden, setPanel } from './record/data'
@@ -22,14 +22,14 @@ themeConfig.baseTheme = 'dark'
 
 solidMsg.setOptions({ zIndex: '9999', progress: true, position: 'center' })
 
-apiOptions.baseUrl = `${(window as any).testflowyURL || ''}/v1`
-apiOptions.onError = (err) => {
-  const msg = (i18n as unknown as Record<string, string>)[err.message] || err.message
-  if (msg === i18n.登录状态已过期)
-    logout()
+// apiOptions.baseUrl = `${(window as any).testflowyURL || ''}/v1`
+// apiOptions.onError = (err) => {
+//   const msg = (i18n as unknown as Record<string, string>)[err.message] || err.message
+//   if (msg === i18n.登录状态已过期)
+//     logout()
 
-  solidMsg.red(msg)
-}
+//   solidMsg.red(msg)
+// }
 
 keyboard()
 observe()
@@ -104,6 +104,6 @@ export const testflowySDK = function (input: Partial<typeof opt> = {}) {
     setIsExample(true)
   }
   render(App, document.body)
-};
+}
 
-(window as any).testflowySDK = testflowySDK
+// (window as any).testflowySDK = testflowySDK

@@ -1,6 +1,6 @@
 import type { JSX } from 'solid-js'
 import { Show, createSignal } from 'solid-js'
-import { css } from '../../routers/css'
+import { css } from '../css'
 import { appUrl, logout, sdkStorage } from '../record/data'
 import { i18n } from '@/i18n'
 import { UxButton } from '@/component/UxButton'

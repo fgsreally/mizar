@@ -7,8 +7,7 @@ import type { JSX } from 'solid-js'
 import { For, Match, Show, Switch, createEffect, createRoot, createSignal } from 'solid-js'
 import { createStore } from 'solid-js/store'
 import { solidMsg } from 'solid-msg'
-import { apis } from '../../routers/_apis'
-import { LoadingSvg } from '../../routers/svgs/LoadingSvg'
+import { LoadingSvg } from '../svg/LoadingSvg'
 import type { DraftListItem } from '../../routers/task/draft/_getDrafts'
 import { actions } from '../record/actions'
 import { focusFail, getSdkAuth, license, sdkStorage, setFocusFail, setLicense } from '../record/data'
@@ -70,18 +69,18 @@ export function Organization() {
       return
 
     setLoading(true)
-    const res = await apis.task_task.getTasks({
-      ...getSdkAuth(),
-      name: search(),
-      offset: tasks.list.length,
-      pass: focusFail() ? false : void 0,
-      limit: 20,
-      owner: license().owner!,
-    })
-    const nextList = tasks.list.concat(res.data || [])
-    setTasks('list', [...nextList])
-    setEnd(nextList.length === res.total)
-    setTotal(res.total)
+    // const res = await apis.task_task.getTasks({
+    //   ...getSdkAuth(),
+    //   name: search(),
+    //   offset: tasks.list.length,
+    //   pass: focusFail() ? false : void 0,
+    //   limit: 20,
+    //   owner: license().owner!,
+    // })
+    // const nextList = tasks.list.concat(res.data || [])
+    // setTasks('list', [...nextList])
+    // setEnd(nextList.length === res.total)
+    // setTotal(res.total)
 
     setLoading(false)
   }
@@ -97,48 +96,49 @@ export function Organization() {
     if (!(await setShowDeleteAlert()))
       return
 
-    const res = await apis.task_task.deleteTask({ auth: getSdkAuth(), id: item.id! })
-    if (res.ok) {
-      solidMsg.dark(i18n.删除成功, 500)
-      setTasks('list', [])
-      fetchTaskList()
-    }
+    // const res = await apis.task_task.deleteTask({ auth: getSdkAuth(), id: item.id! })
+    // if (res.ok) {
+    //   solidMsg.dark(i18n.删除成功, 500)
+    //   setTasks('list', [])
+    //   fetchTaskList()
+    // }
   }
   const handleUse = async (item: DraftListItem) => {
-    const res = await apis.task_task.getTaskDetail({ ...getSdkAuth(), id: item.id! })
-    // actions.load(res);
-    actions.loadAll([res])
+    // const res = await apis.task_task.getTaskDetail({ ...getSdkAuth(), id: item.id! })
+    // // actions.load(res);
+    // actions.loadAll([res])
     actions.run('task')
   }
 
   const handleUpdate = async (name: string, item: DraftListItem) => {
-    const data = await apis.task_task.getTaskDetail({ ...getSdkAuth(), id: item.id! })
-    const res = await apis.task_task.updateTask({
-      auth: getSdkAuth(),
-      id: item.id!,
-      md5: SHA256(data.code).toString(),
-      name,
-      crypto: false,
-    })
-    if (res.ok)
-      solidMsg.dark(i18n.修改成功, 500)
+    // const data = await apis.task_task.getTaskDetail({ ...getSdkAuth(), id: item.id! })
+    // const res = await apis.task_task.updateTask({
+    //   auth: getSdkAuth(),
+    //   id: item.id!,
+    //   md5: SHA256(data.code).toString(),
+    //   name,
+    //   crypto: false,
+    // })
+    // if (res.ok)
+    //   solidMsg.dark(i18n.修改成功, 500)
 
-    return res.ok
+    // return res.ok
+    return true
   }
 
   const handleCopyToSelf = async (item: DraftListItem) => {
-    const task = await apis.task_task.getTaskDetail({ ...getSdkAuth(), id: item.id! })
-    const res = await apis.task_draft.createDraft({
-      code: task.code,
-      md5: task.md5,
-      name: task.name,
-      steps: task.steps,
-      auth: getSdkAuth(),
-      pass: false,
-      crypto: false,
-    })
-    if (res.ok)
-      solidMsg.dark(i18n.操作成功, 500)
+    // const task = await apis.task_task.getTaskDetail({ ...getSdkAuth(), id: item.id! })
+    // const res = await apis.task_draft.createDraft({
+    //   code: task.code,
+    //   md5: task.md5,
+    //   name: task.name,
+    //   steps: task.steps,
+    //   auth: getSdkAuth(),
+    //   pass: false,
+    //   crypto: false,
+    // })
+    // if (res.ok)
+    solidMsg.dark(i18n.操作成功, 500)
   }
 
   const handleUseSelected = async () => {
@@ -148,14 +148,14 @@ export function Organization() {
       solidMsg.dark(i18n.同时执行条数不能大于十条, 1000)
       return
     }
-    const res = await apis.task_task.getTaskDetails({ auth: getSdkAuth(), ids })
-    actions.loadAll(res.data.filter(v => v.code !== '[]'))
+    // const res = await apis.task_task.getTaskDetails({ auth: getSdkAuth(), ids })
+    // actions.loadAll(res.data.filter(v => v.code !== '[]'))
     actions.run('task')
   }
 
   const handleEdit = async (item: DraftListItem) => {
-    const res = await apis.task_task.getTaskDetail({ ...getSdkAuth(), id: item.id! })
-    actions.load(res)
+    // const res = await apis.task_task.getTaskDetail({ ...getSdkAuth(), id: item.id! })
+    // actions.load(res)
     actions.openEditor(true)
   }
 

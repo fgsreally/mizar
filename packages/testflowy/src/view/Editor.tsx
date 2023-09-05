@@ -1,9 +1,9 @@
 import type { JSX } from 'solid-js'
 import { Show } from 'solid-js'
 import { solidMsg } from 'solid-msg'
-import { i18n } from '@/i18n'
 import { actions } from '../record/actions'
 import { editorOnlyView, sdkStorage, showEditor } from '../record/data'
+import { i18n } from '@/i18n'
 import { UxButton } from '@/component/UxButton'
 import { UxMonacoEditor } from '@/component/UxMonacoEditor'
 import { isDark } from '@/component/UxTheme'
@@ -28,8 +28,7 @@ const buttonSty = {
 } as JSX.CSSProperties
 
 export const Editor = () => {
-  // eslint-disable-next-line
-  let editor: any;
+  let editor: any
   const save = async () => {
     const value = editor.getValue()
     editor.getAction('editor.action.formatDocument').run()
@@ -38,8 +37,8 @@ export const Editor = () => {
       sdkStorage.val.events = JSON.parse(value)
       // sdkStorage.val.meta = meta;
       actions.save()
-      // eslint-disable-next-line
-    } catch (err: any) {
+    }
+    catch (err: any) {
       solidMsg.red(err.toString())
     }
   }

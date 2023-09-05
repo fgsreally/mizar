@@ -1,5 +1,5 @@
 import { AES, enc, SHA256 } from "crypto-js";
-import { i18n } from "../../i18n";
+import { i18n } from "@/i18n";
 import { sdkStorage } from "./data";
 
 export function eventsToString(events: typeof sdkStorage.val.events, meta: Record<string, unknown>) {

@@ -1,7 +1,7 @@
 export const eventMap = {
   // Clipboard Events
   copy: {
-    EventType: "ClipboardEvent",
+    EventType: 'ClipboardEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -9,7 +9,7 @@ export const eventMap = {
     },
   },
   cut: {
-    EventType: "ClipboardEvent",
+    EventType: 'ClipboardEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -17,7 +17,7 @@ export const eventMap = {
     },
   },
   paste: {
-    EventType: "ClipboardEvent",
+    EventType: 'ClipboardEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -26,7 +26,7 @@ export const eventMap = {
   },
   // Composition Events
   compositionEnd: {
-    EventType: "CompositionEvent",
+    EventType: 'CompositionEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -34,7 +34,7 @@ export const eventMap = {
     },
   },
   compositionStart: {
-    EventType: "CompositionEvent",
+    EventType: 'CompositionEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -42,7 +42,7 @@ export const eventMap = {
     },
   },
   compositionUpdate: {
-    EventType: "CompositionEvent",
+    EventType: 'CompositionEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -51,7 +51,7 @@ export const eventMap = {
   },
   // Keyboard Events
   keyDown: {
-    EventType: "KeyboardEvent",
+    EventType: 'KeyboardEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -60,7 +60,7 @@ export const eventMap = {
     },
   },
   keyPress: {
-    EventType: "KeyboardEvent",
+    EventType: 'KeyboardEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -69,7 +69,7 @@ export const eventMap = {
     },
   },
   keyUp: {
-    EventType: "KeyboardEvent",
+    EventType: 'KeyboardEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -79,7 +79,7 @@ export const eventMap = {
   },
   // Focus Events
   focus: {
-    EventType: "FocusEvent",
+    EventType: 'FocusEvent',
     defaultInit: {
       bubbles: false,
       cancelable: false,
@@ -87,7 +87,7 @@ export const eventMap = {
     },
   },
   blur: {
-    EventType: "FocusEvent",
+    EventType: 'FocusEvent',
     defaultInit: {
       bubbles: false,
       cancelable: false,
@@ -95,7 +95,7 @@ export const eventMap = {
     },
   },
   focusIn: {
-    EventType: "FocusEvent",
+    EventType: 'FocusEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -103,7 +103,7 @@ export const eventMap = {
     },
   },
   focusOut: {
-    EventType: "FocusEvent",
+    EventType: 'FocusEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -112,14 +112,14 @@ export const eventMap = {
   },
   // Form Events
   change: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: true,
       cancelable: false,
     },
   },
   input: {
-    EventType: "InputEvent",
+    EventType: 'InputEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -127,21 +127,21 @@ export const eventMap = {
     },
   },
   invalid: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: true,
     },
   },
   submit: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: true,
       cancelable: true,
     },
   },
   reset: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -149,7 +149,7 @@ export const eventMap = {
   },
   // Mouse Events
   click: {
-    EventType: "MouseEvent",
+    EventType: 'MouseEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -158,7 +158,7 @@ export const eventMap = {
     },
   },
   contextMenu: {
-    EventType: "MouseEvent",
+    EventType: 'MouseEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -166,7 +166,7 @@ export const eventMap = {
     },
   },
   dblClick: {
-    EventType: "MouseEvent",
+    EventType: 'MouseEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -174,7 +174,7 @@ export const eventMap = {
     },
   },
   drag: {
-    EventType: "DragEvent",
+    EventType: 'DragEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -182,7 +182,7 @@ export const eventMap = {
     },
   },
   dragEnd: {
-    EventType: "DragEvent",
+    EventType: 'DragEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -190,7 +190,7 @@ export const eventMap = {
     },
   },
   dragEnter: {
-    EventType: "DragEvent",
+    EventType: 'DragEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -198,7 +198,7 @@ export const eventMap = {
     },
   },
   dragExit: {
-    EventType: "DragEvent",
+    EventType: 'DragEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -206,7 +206,7 @@ export const eventMap = {
     },
   },
   dragLeave: {
-    EventType: "DragEvent",
+    EventType: 'DragEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -214,7 +214,7 @@ export const eventMap = {
     },
   },
   dragOver: {
-    EventType: "DragEvent",
+    EventType: 'DragEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -222,7 +222,7 @@ export const eventMap = {
     },
   },
   dragStart: {
-    EventType: "DragEvent",
+    EventType: 'DragEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -230,7 +230,7 @@ export const eventMap = {
     },
   },
   drop: {
-    EventType: "DragEvent",
+    EventType: 'DragEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -238,7 +238,7 @@ export const eventMap = {
     },
   },
   mouseDown: {
-    EventType: "MouseEvent",
+    EventType: 'MouseEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -246,7 +246,7 @@ export const eventMap = {
     },
   },
   mouseEnter: {
-    EventType: "MouseEvent",
+    EventType: 'MouseEvent',
     defaultInit: {
       bubbles: false,
       cancelable: false,
@@ -254,7 +254,7 @@ export const eventMap = {
     },
   },
   mouseLeave: {
-    EventType: "MouseEvent",
+    EventType: 'MouseEvent',
     defaultInit: {
       bubbles: false,
       cancelable: false,
@@ -262,7 +262,7 @@ export const eventMap = {
     },
   },
   mouseMove: {
-    EventType: "MouseEvent",
+    EventType: 'MouseEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -270,7 +270,7 @@ export const eventMap = {
     },
   },
   mouseOut: {
-    EventType: "MouseEvent",
+    EventType: 'MouseEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -278,7 +278,7 @@ export const eventMap = {
     },
   },
   mouseOver: {
-    EventType: "MouseEvent",
+    EventType: 'MouseEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -286,7 +286,7 @@ export const eventMap = {
     },
   },
   mouseUp: {
-    EventType: "MouseEvent",
+    EventType: 'MouseEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -295,7 +295,7 @@ export const eventMap = {
   },
   // Selection Events
   select: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -303,7 +303,7 @@ export const eventMap = {
   },
   // Touch Events
   touchCancel: {
-    EventType: "TouchEvent",
+    EventType: 'TouchEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -311,7 +311,7 @@ export const eventMap = {
     },
   },
   touchEnd: {
-    EventType: "TouchEvent",
+    EventType: 'TouchEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -319,7 +319,7 @@ export const eventMap = {
     },
   },
   touchMove: {
-    EventType: "TouchEvent",
+    EventType: 'TouchEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -327,7 +327,7 @@ export const eventMap = {
     },
   },
   touchStart: {
-    EventType: "TouchEvent",
+    EventType: 'TouchEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -336,14 +336,14 @@ export const eventMap = {
   },
   // UI Events
   resize: {
-    EventType: "UIEvent",
+    EventType: 'UIEvent',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   scroll: {
-    EventType: "UIEvent",
+    EventType: 'UIEvent',
     defaultInit: {
       bubbles: false,
       cancelable: false,
@@ -351,7 +351,7 @@ export const eventMap = {
   },
   // Wheel Events
   wheel: {
-    EventType: "WheelEvent",
+    EventType: 'WheelEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -360,154 +360,154 @@ export const eventMap = {
   },
   // Media Events
   abort: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   canPlay: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   canPlayThrough: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   durationChange: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   emptied: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   encrypted: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   ended: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   loadedData: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   loadedMetadata: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   loadStart: {
-    EventType: "ProgressEvent",
+    EventType: 'ProgressEvent',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   pause: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   play: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   playing: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   progress: {
-    EventType: "ProgressEvent",
+    EventType: 'ProgressEvent',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   rateChange: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   seeked: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   seeking: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   stalled: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   suspend: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   timeUpdate: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   volumeChange: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   waiting: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
@@ -519,14 +519,14 @@ export const eventMap = {
     // This is were this abstraction breaks down.
     // But the common targets are <img />, <script /> and window.
     // Neither of these targets receive a UIEvent
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   error: {
-    EventType: "Event",
+    EventType: 'Event',
     defaultInit: {
       bubbles: false,
       cancelable: false,
@@ -534,21 +534,21 @@ export const eventMap = {
   },
   // Animation Events
   animationStart: {
-    EventType: "AnimationEvent",
+    EventType: 'AnimationEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
     },
   },
   animationEnd: {
-    EventType: "AnimationEvent",
+    EventType: 'AnimationEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
     },
   },
   animationIteration: {
-    EventType: "AnimationEvent",
+    EventType: 'AnimationEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -556,28 +556,28 @@ export const eventMap = {
   },
   // Transition Events
   transitionCancel: {
-    EventType: "TransitionEvent",
+    EventType: 'TransitionEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
     },
   },
   transitionEnd: {
-    EventType: "TransitionEvent",
+    EventType: 'TransitionEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
     },
   },
   transitionRun: {
-    EventType: "TransitionEvent",
+    EventType: 'TransitionEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
     },
   },
   transitionStart: {
-    EventType: "TransitionEvent",
+    EventType: 'TransitionEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -585,7 +585,7 @@ export const eventMap = {
   },
   // pointer events
   pointerOver: {
-    EventType: "PointerEvent",
+    EventType: 'PointerEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -593,14 +593,14 @@ export const eventMap = {
     },
   },
   pointerEnter: {
-    EventType: "PointerEvent",
+    EventType: 'PointerEvent',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   pointerDown: {
-    EventType: "PointerEvent",
+    EventType: 'PointerEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -608,7 +608,7 @@ export const eventMap = {
     },
   },
   pointerMove: {
-    EventType: "PointerEvent",
+    EventType: 'PointerEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -616,7 +616,7 @@ export const eventMap = {
     },
   },
   pointerUp: {
-    EventType: "PointerEvent",
+    EventType: 'PointerEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -624,7 +624,7 @@ export const eventMap = {
     },
   },
   pointerCancel: {
-    EventType: "PointerEvent",
+    EventType: 'PointerEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -632,7 +632,7 @@ export const eventMap = {
     },
   },
   pointerOut: {
-    EventType: "PointerEvent",
+    EventType: 'PointerEvent',
     defaultInit: {
       bubbles: true,
       cancelable: true,
@@ -640,14 +640,14 @@ export const eventMap = {
     },
   },
   pointerLeave: {
-    EventType: "PointerEvent",
+    EventType: 'PointerEvent',
     defaultInit: {
       bubbles: false,
       cancelable: false,
     },
   },
   gotPointerCapture: {
-    EventType: "PointerEvent",
+    EventType: 'PointerEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -655,7 +655,7 @@ export const eventMap = {
     },
   },
   lostPointerCapture: {
-    EventType: "PointerEvent",
+    EventType: 'PointerEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
@@ -664,16 +664,16 @@ export const eventMap = {
   },
   // history events
   popState: {
-    EventType: "PopStateEvent",
+    EventType: 'PopStateEvent',
     defaultInit: {
       bubbles: true,
       cancelable: false,
     },
   },
-};
+}
 
 export const eventAliasMap = {
-  doubleClick: "dblClick",
-};
+  doubleClick: 'dblClick',
+}
 
-export type EventMapKeys = keyof typeof eventMap;
+export type EventMapKeys = keyof typeof eventMap
