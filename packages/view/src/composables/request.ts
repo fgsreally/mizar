@@ -5,7 +5,7 @@ export function useRequest<F extends (...args: any) => any>(method: F, opts: {
 } = {}) {
   const data = ref(opts.initData)
   const run = async (params: Parameters<F>) => {
-    const { data: value } = await $request(method(...params as any))
+    const { data: value } = await $Req(method(...params as any))
     data.value = value
   }
   if (!opts.manual)

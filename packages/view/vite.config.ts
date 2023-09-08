@@ -9,7 +9,7 @@ import { presetAttributify, presetUno } from 'unocss'
 import AutoImport from 'unplugin-auto-import/vite'
 import presetIcons from '@unocss/preset-icons'
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite'
-import PC from 'phecda-client/vite'
+import Client from 'phecda-client/vite'
 import { Merak } from 'vite-plugin-merak'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
@@ -23,7 +23,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3699',
+        target: 'http://localhost:3000',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, ''),
       },
@@ -39,7 +39,7 @@ export default defineConfig({
     Merak('mizar_view'),
     Icons({ compiler: 'vue3' }),
     Inspect(),
-    PC({
+    Client({
       localPath: '../server/pmeta.js',
 
     }),
@@ -54,7 +54,9 @@ export default defineConfig({
     }),
     AutoImport({
       dirs: ['./src/**/*'],
-      imports: ['vue', 'vue-router'],
+      imports: ['vue', 'vue-router', {
+        'mizar-helper': ['getGlobal'],
+      }],
       resolvers: [
         ArcoResolver({ sideEffect: true }),
       ],

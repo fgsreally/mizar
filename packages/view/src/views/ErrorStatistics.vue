@@ -2,7 +2,7 @@
 import Chart from 'chart.js/auto'
 import { useR } from 'phecda-vue'
 import { BaseModel } from '../models/base'
-import { $request, getErrorStatistics } from '@/api'
+import { $Req, getErrorStatistics } from '@/api'
 const container = $ref<HTMLCanvasElement | null>(null)
 let visible = $ref(false)
 let list = $ref<Awaited<ReturnType<typeof getActions>>>([])
@@ -14,7 +14,7 @@ async function update(range: any) {
   if (!range)
     return
   const [timestart, timeend] = range
-  const { data: value } = await $request(getErrorStatistics(base.projectId, timestart, timeend))
+  const { data: value } = await $Req(getErrorStatistics(base.projectId, timestart, timeend))
   const data = {
     labels: value.map(item => item.date),
     datasets: [{
@@ -33,7 +33,7 @@ async function update(range: any) {
 }
 
 async function updateList(time: string) {
-  const { data } = await $request(getActions(time, base.projectId))
+  const { data } = await $Req(getActions(time, base.projectId))
 
   list = data
 }
