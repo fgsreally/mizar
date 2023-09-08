@@ -1,0 +1,37 @@
+{
+  "name": "megrez-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/modules/index.js",
+  "types": "dist/modules/index.d.ts",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "build:prod": "tsc",
+    "start:prod": "node dist/src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@swc/core": "^1.3.56",
+    "@typegoose/typegoose": "^11.1.0",
+    "@types/express": "^4.17.17",
+    "axios": "^1.4.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "form-data": "^4.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "langchain": "^0.0.109",
+    "mongoose": "^7.1.0",
+    "multer": "1.4.5-lts.1",
+    "phecda-server": "3.0.0-alpha.1",
+    "send": "^0.18.0",
+    "tsup": "^6.5.0",
+    "unzipper": "^0.10.11",
+    "vite": "^4.3.5",
+    "vite-plugin-node": "^3.0.2"
+  },
+  "yalcSig": "993f50debfad66c6acd7c35d6270460b"
+}

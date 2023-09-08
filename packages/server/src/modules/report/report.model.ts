@@ -1,12 +1,12 @@
 import { type Ref, getModelForClass, prop } from '@typegoose/typegoose'
-import { ProjectEntity } from '../project/project.model'
+import { NamespaceDTO } from 'megrez-backend'
 
 export class ReportEntity {
   @prop({ required: true })
   level!: 'performance' | 'error' | 'info'
 
   @prop({ required: true })
-  type!: string
+  category!: string
 
   @prop({ required: true })
   uid!: string
@@ -14,8 +14,8 @@ export class ReportEntity {
   @prop({ required: true })
   time!: Date
 
-  @prop({ required: true, ref: () => ProjectEntity })
-  project!: Ref<ProjectEntity>
+  @prop({ required: true, ref: () => NamespaceDTO })
+  namespace!: Ref<NamespaceDTO>
 
   @prop({ required: true })
   platform!: string

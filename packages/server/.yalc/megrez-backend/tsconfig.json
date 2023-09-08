@@ -1,32 +1,27 @@
 {
-
   "compilerOptions": {
     "target": "es2022",
-    "baseUrl": ".",
     "useDefineForClassFields": false,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators":true,
     "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
     "module": "CommonJS",
-    "lib": ["es2022"],
     "moduleResolution": "Node",
     "strict": true,
+    "jsx": "preserve",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "noEmit": false,
-    "outDir":"dist",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
+    "lib": ["es2022", "DOM"],
     "skipLibCheck": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "declaration":true,
+    "noEmit": false,
+    "outDir":"dist"
+
   },
-  "include": ["src/**/*.ts", "__test__/**/*"],
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }],
   "ts-node": {
     "files": true 
   }
 }
-  

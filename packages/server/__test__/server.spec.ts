@@ -2,32 +2,29 @@ import { describe, expect, it } from 'vitest'
 import { Factory } from 'phecda-server'
 
 import type { Ref } from '@typegoose/typegoose'
-import type { UserEntity } from '../src/modules/user/user.model'
-import type { ProjectEntity } from '../src/modules'
-import { ProjectService, QueryService, RecordService, ReportService } from '../src/modules'
-import { ConfigModule } from './config.module'
-import { UserService } from '@/modules/user/user.service'
+import type { NamespaceDTO } from '../src/modules/index.controller'
+import { ConfigModule, NamespaceService, QueryService, RecordService, ReportService, UserService } from '../src/modules/index.controller'
 describe('Collect upload data and analyse ', async () => {
   const data = await Factory([
     ConfigModule,
     UserService,
-    ProjectService,
+    NamespaceService,
     RecordService,
     ReportService,
     QueryService,
 
   ])
-  let user: Ref<UserEntity>, project: Ref<ProjectEntity>
+  let namespace: Ref<NamespaceDTO>
   const User = data.moduleMap.get('user') as UserService
-  const Project = data.moduleMap.get('project') as ProjectService
+  const Namespace = data.moduleMap.get('namespace') as NamespaceService
   const Report = data.moduleMap.get('report') as ReportService
   const Record = data.moduleMap.get('record') as RecordService
   const Query = data.moduleMap.get('query') as QueryService
 
-  it('create project', async () => {
-    user = await User.create({ name: 'fgs', email: 'test@a.com', password: '1111111', permission: 'user' })
-    project = await Project.create({ name: 'test app', description: 'for test', creator: user })
-    expect((await Project.Model.find({})).length).toBe(1)
+  it('create namespace', async () => {
+    await User.create({ email: 'test@a.com', password: '1111111' })
+    namespace = await Namespace.Model.findOne({ name: 'default' }) as any
+    expect((await Namespace.Model.find({})).length).toBe(1)
   })
 
   it('report error data', async () => {
@@ -35,10 +32,10 @@ describe('Collect upload data and analyse ', async () => {
     for (let i = 0; i < 20; i++) {
       data.push({
         level: 'error',
-        type: 'error',
+        category: 'error',
         uid: i,
         time: new Date(),
-        project,
+        namespace,
         platform: 'test',
         page_title: 'test_title',
         url: 'test.com',
@@ -68,12 +65,13 @@ describe('Collect upload data and analyse ', async () => {
       return `${year}-${month}-${day}`
     }
 
-    const messages = (await Query.getErrorActions(getCurrentDate(), (project as any)._id)).map((item) => {
-      return item.data.message
-    })
+    const messages = (await Query.getErrorActions(getCurrentDate(), (namespace as any)._id))
+      .map((item) => {
+        return item.data.message
+      })
     expect(messages).toContain('test1')
     expect(messages).toContain('test2')
-    const statistics = await Query.getErrorStatistic((project as any)._id, [
+    const statistics = await Query.getErrorStatistic((namespace as any)._id, [
 
       new Date(new Date().getTime() - 50000),
       new Date(),

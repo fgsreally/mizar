@@ -1,7 +1,6 @@
 import { Body, Controller, Get, NotFoundException, Post, Query } from 'phecda-server'
 
 import type { RecordEntity } from '../record/record.model'
-import { ProjectService } from '../project/project.service'
 import { ReportService } from '../report/report.service'
 import type { ReportEntity } from '../report/report.model'
 import type { Q } from '../../types/query'
@@ -11,7 +10,7 @@ import { QueryService } from './query.service'
 @Controller('/query')
 export class QueryController {
   context: any
-  constructor(protected queryService: QueryService, protected projectService: ProjectService, protected reportService: ReportService) {
+  constructor(protected queryService: QueryService, protected reportService: ReportService) {
 
   }
 
@@ -30,7 +29,7 @@ export class QueryController {
     const [report] = await this.reportService.findByuid(uid)
     if (!report)
       throw new NotFoundException('没有对应uid的信息')
-    return this.reportService.findNearest(report.user, report.time, report.project as string) as Promise<ReportEntity[]>
+    return this.reportService.findNearest(report.user, report.time, report.namespace as unknown as string) as Promise<ReportEntity[]>
   }
 
   // @Get('/error_actions')

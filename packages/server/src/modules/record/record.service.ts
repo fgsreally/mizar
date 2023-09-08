@@ -15,7 +15,7 @@ export class RecordService {
   readonly ReportModel = ReportModel
   // 每小时统计
   public async corn() {
-    return await this.errorStatistics()
+    return this.errorStatistics()
   }
 
   private aggregate(data: any[]) {
@@ -35,7 +35,7 @@ export class RecordService {
     const errorOrReject = await this.aggregate([{
       $match: {
         level: 'error',
-        type: {
+        category: {
           $in: ['error', 'reject'],
         },
         time: {
@@ -47,7 +47,7 @@ export class RecordService {
 
     {
       $group: {
-        _id: { project: '$project', stack: '$data.stack', message: '$message', type: '$type' },
+        _id: { namespace: '$namespace', stack: '$data.stack', message: '$message', category: '$category' },
         arr: { $push: '$_id' },
         count: { $sum: 1 },
       },
@@ -55,18 +55,18 @@ export class RecordService {
     {
       $project: {
         '_id': 0,
+        'namespace': '$_id.namespace',
+
         'data.arr': '$arr',
-        'project': '$_id.project',
         'data.stack': '$_id.stack',
         'data.message': '$_id.message',
-        'data.type': '$_id.type',
+        'data.category': '$_id.category',
         'data.count': '$count',
       },
     },
     {
       $addFields: {
-        type: RECORD_EVENT.ERROR_INSTANCE,
-        time: now,
+        category: RECORD_EVENT.ERROR_INSTANCE,
       },
     },
 
@@ -75,7 +75,7 @@ export class RecordService {
     const requestError = await this.aggregate([{
       $match: {
         level: 'error',
-        type: {
+        category: {
           $in: ['fetch', 'xhr'],
         },
         time: {
@@ -87,7 +87,7 @@ export class RecordService {
 
     {
       $group: {
-        _id: { project: '$project', url: '$data.url', type: '$type' },
+        _id: { namespace: '$namespace', url: '$data.url', category: '$category' },
         arr: { $push: '$_id' },
         count: { $sum: 1 },
       },
@@ -95,18 +95,18 @@ export class RecordService {
     {
       $project: {
         '_id': 0,
+        'namespace': '$_id.namespace',
+
         'data.arr': '$arr',
-        'project': '$_id.project',
         'data.url': '$_id.url',
         'data.message': '$_id.message',
-        'data.type': '$_id.type',
+        'data.category': '$_id.category',
         'data.count': '$count',
       },
     },
     {
       $addFields: {
-        type: RECORD_EVENT.ERROR_INSTANCE,
-        time: now,
+        category: RECORD_EVENT.ERROR_INSTANCE,
       },
     }])
 
@@ -114,23 +114,23 @@ export class RecordService {
     const statisRecord: Record<string, { count: number }> = {}
 
     allErrors.forEach((item) => {
-      if (!(item.project in statisRecord)) {
-        statisRecord[item.project] = {
+      const { namespace } = item.data
+      if (!(namespace in statisRecord)) {
+        statisRecord[namespace] = {
           count: 0,
         }
       }
-      statisRecord[item.project].count += item.data.count
+      statisRecord[namespace].count += item.data.count
     })
 
-    this.addRecord(Object.entries(statisRecord).map(([project, data]) => {
+    await this.addRecord(Object.entries(statisRecord).map(([namespace, data]) => {
       return {
-        project,
+        namespace,
         data,
-        time: now,
-        type: RECORD_EVENT.ERROR_STATISTICS,
-      } as RecordEntity<{ count: number }>
+        category: RECORD_EVENT.ERROR_STATISTICS,
+      }
     }))
-    this.addRecord(allErrors)
+    await this.addRecord(allErrors)
     return {
       errorOrReject,
       requestError,

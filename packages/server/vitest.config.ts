@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url'
-import { swcUnplugin as swc } from 'unplugin-swc-esm'
+import swc from 'unplugin-swc'
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({

@@ -1,5 +1,5 @@
 import { Tag } from 'phecda-server'
-import mongoose from 'mongoose'
+import mongoose, { Types } from 'mongoose'
 import { ReportService } from '../report/report.service'
 import { RecordModel } from '../record/record.model'
 import { RECORD_EVENT } from '../../common'
@@ -12,34 +12,33 @@ export class QueryService {
 
   readonly Model = RecordModel
 
-  public async getErrorActions(time: string, projectId: string) {
+  public async getErrorActions(time: string, namespaceId: string) {
     return this.Model.aggregate([
       {
         $project: {
           data: 1,
-          time: { $dateToString: { format: /^\d{4}-\d{2}-\d{2}$/.test(time) ? '%Y-%m-%d' : '%H:%M', date: '$time' } },
-          project: 1,
-          type: 1,
+          createdAt: { $dateToString: { format: /^\d{4}-\d{2}-\d{2}$/.test(time) ? '%Y-%m-%d' : '%H:%M', date: '$createdAt' } },
+          namespace: 1,
+          category: 1,
         },
       },
       {
         $match: {
-          project: new mongoose.Types.ObjectId(projectId),
-          type: RECORD_EVENT.ERROR_INSTANCE,
-          time,
+          category: RECORD_EVENT.ERROR_INSTANCE,
+          namespace: new Types.ObjectId(namespaceId),
         },
       },
 
     ]).exec()
   }
 
-  public async getErrorStatistic(projectId: string, [timestart, timeend]: [Date, Date]) {
+  public async getErrorStatistic(namespaceId: string, [timestart, timeend]: [Date, Date]) {
     const ret = await this.Model.aggregate([
       {
         $match: {
-          project: new mongoose.Types.ObjectId(projectId),
-          type: RECORD_EVENT.ERROR_STATISTICS,
-          time: {
+          namespace: new mongoose.Types.ObjectId(namespaceId),
+          category: RECORD_EVENT.ERROR_STATISTICS,
+          createdAt: {
             $gte: timestart,
             $lte: timeend,
           },
@@ -48,7 +47,7 @@ export class QueryService {
 
       {
         $group: {
-          _id: { $dateToString: { format: diffDay(timestart, timeend) > 0 ? '%Y-%m-%d' : '%H:%M', date: '$time' } },
+          _id: { $dateToString: { format: diffDay(timestart, timeend) > 0 ? '%Y-%m-%d' : '%H:%M', date: '$createdAt' } },
           total: {
             $sum: '$data.count',
           },
@@ -63,7 +62,6 @@ export class QueryService {
       },
 
     ]).exec()
-
     return ret as { date: string; total: number }[]
   }
 }
